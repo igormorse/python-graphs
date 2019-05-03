@@ -19,4 +19,4 @@ A JSON file will be created at folder Data with the generated Graph.
 
 ### ListAdjacencyGraph.py
 
-``Contains methods for reading the parsed JSON of File into a List Adjacency Graph Representation`
+`Contains methods for reading the parsed JSON of File into a List Adjacency Graph Representation`
