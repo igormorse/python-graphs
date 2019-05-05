@@ -2,6 +2,11 @@ import json
 import random
 import sys
 
+
+if (len(sys.argv) == 1):
+    print("\n\nUsage: python generate_graph_file.py {OUTPUT_GRAPH_SIZE} \n\nExample: python generate_graph_file.py 500 - Generates Graph with 500 Vertices and random relationships between them.\n\n")
+    exit()
+    
 # Edges hash to prevent repeated Vertices
 edgesHash = {}
 

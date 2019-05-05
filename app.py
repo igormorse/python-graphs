@@ -6,16 +6,15 @@ from modules.graph.adjacency_list_graph import AdjacencyListGraph
 
 graph = None
 
+# Read Generated Json Graph File.
 with open('./data/graph.json', encoding='utf-8') as json_file:
     graphFile = json.load(json_file)
 
-# MODO 1
+# graph = AdjacencyMatrixGraph(graphFile)
 
-#graph = AdjacencyMatrixGraph(graphFile)
+# print(graph.verticeExists(0))
 
-#print(graph.verticeExists(0))
-
-#print(graph.getGraph())
+# graph.show()
 
 #print("\n\nAdicionando o Vertice: a\n\n")
 
@@ -72,12 +71,8 @@ graph2.removeVertice(3)
     
 print(graph2.getVerticeNeighborhood('a'))
 
+# Tamanho da Vizinhança
 for vertice in graph2.getVertices():
     print("Vertice: " + str(vertice))
     print(len(graph2.getVerticeNeighborhood(vertice)))
     print("\n")
-
-
-# MODO 2
-# AdjancecyList/Matrix Classes secundárias
-# graph = Graph(graph, Graph.ADJANCECY_REPRESENTATION)
