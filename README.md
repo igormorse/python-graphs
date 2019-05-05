@@ -4,6 +4,12 @@ Library for Handling Graphs Data
 
 `For not having trouble with backwards compability use Python 3.6`
 
+## Colaborators
+
+* Igor Morse
+* Kleber Caldas
+* Maurício Vicente
+
 ## Generating Random Graph
 
 `generate_graph_file.py Number_Of_Vertices`
