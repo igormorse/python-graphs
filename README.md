@@ -23,8 +23,8 @@ A JSON file will be created at folder Data with the generated Graph.
 
 ### MatrixAdjacencyGraph.py
 
-`Contains methods for reading the parsed JSON of File into a Matrix Adjacency Graph Representation`
+`Contains methods for reading the parsed JSON of File or Creating from scratch into a Matrix Adjacency Graph Representation`
 
 ### ListAdjacencyGraph.py
 
-`Contains methods for reading the parsed JSON of File into a List Adjacency Graph Representation`
+`Contains methods for reading the parsed JSON of File or Creating from scratch into a List Adjacency Graph Representation`
