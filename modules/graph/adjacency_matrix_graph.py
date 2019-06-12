@@ -2,7 +2,7 @@ from modules.graph.graph import Graph
 
 class AdjacencyMatrixGraph(Graph):
     
-    def __init__(self, graph):
+    def __init__(self, graph = None):
         
         super().__init__(graph)
         
@@ -28,8 +28,16 @@ class AdjacencyMatrixGraph(Graph):
     
     # ToDo
     def getEdges(self):
-        pass
+        for key,edge in self.matrix_graph.items():
+            
+            print(filter(lambda x:x[1]>0, edge))
+            print(key)
+            print(edge)
         
+           
+        exit()
+        pass
+    
     def createEdge(self, edge):
         if (self.edgeExists(edge) == False and self.verticeExists(edge[0]) and self.verticeExists(edge[1])):
             self.matrix_graph[edge[0]][edge[1]] = 1
@@ -47,6 +55,7 @@ class AdjacencyMatrixGraph(Graph):
         
     def verticeExists(self, vertice):
         return vertice in self.matrix_graph
+            
         
     # ToDo
     def edgeExists(self, edge):
@@ -93,6 +102,12 @@ class AdjacencyMatrixGraph(Graph):
             return neighborhood
             
         raise Exception('Vertice: {0} is not in Graph!'.format(vertice))
+        
+    def getGraphInstance(self, copy = False):
+        if not copy:
+            return AdjacencyMatrixGraph()
+        else:
+            return AdjacencyMatrixGraph(self.graph)
             
         
                 

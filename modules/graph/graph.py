@@ -9,8 +9,20 @@ class Graph:
     ADJACENCY_MATRIX = 'adjacency_matrix'
     AJACENCY_LIST = 'adjacency_list'
     
-    def __init__(self, graph):
-        self.graph = graph
+    def __init__(self, graph = None):
+        
+        # Search Implementation
+        self.visited = {}
+        self.explored = {}
+        self.discovered = {}
+        
+        if graph is not None:
+            self.graph = graph
+        else:
+            self.graph = {}
+            self.graph[self.VERTICES_KEY] = []
+            self.graph[self.EDGES_KEY] = []
+            self.graph[self.GRAPH_NAME_KEY] = []
         
     def show(self):
         print(self.graph)
@@ -59,5 +71,97 @@ class Graph:
             return
         
         raise Exception('Edge is already in Graph!')
+        
+    def getSymbolicEdge(self, firstVertice, secondVertice):
+        return str(firstVertice) + str(secondVertice)
+        
+    def initializeEdge(self, edge):
+        symbolic_edge = self.getSymbolicEdge(edge[0], edge[1])
+            
+        inversed_symbolic_edge = self.getSymbolicEdge(edge[1], edge[0])
+        
+        self.explored[symbolic_edge], self.explored[inversed_symbolic_edge] = False, False
+        self.discovered[symbolic_edge], self.discovered[inversed_symbolic_edge] = False, False
+    
+    def initializeVertice(self, vertice):
+        self.visited[vertice] = False
+        
+    def fullSearch(self):
+
+        for vertice in self.getVertices():
+            if(self.visited[vertice] == False):
+                self.search(vertice)
+        
+    def search(self, vertice = None):
+        
+        if vertice is None:
+            # Choosing Randomly Doesn't Work
+            # root_vertice = random.choices(list(self.list_graph.keys()), k=1)
+            root_vertice = list(self.list_graph.keys())
+            self.visited[root_vertice[0]] = True
+        else:
+            self.visited[vertice] = True
+            
+        for edge in list(self.getEdges().values()):
+            symbolic_edge = self.getSymbolicEdge(edge[0], edge[1])
+            if (self.visited[edge[0]] and not self.explored[symbolic_edge]):
+                self.explored[symbolic_edge] = True
+                
+                if not self.visited[edge[1]]:
+                    self.visited[edge[1]], self.discovered[symbolic_edge] = True, True
+        
+    def isConnected(self):
+        self.search()
+        for vertice in self.getVertices():
+            if(self.visited[vertice] == False):
+                return False
+        return True
+        
+    def hasCicle(self):
+        self.fullSearch()
+        
+        for edge in self.getEdges().keys():
+            if not self.discovered[edge]:
+                return True
+        return False
+        
+    def hasForest(self):
+        return not self.hasCicle() 
+    
+    def isTree(self, alternative = False):
+        
+        if not alternative:
+            self.search()
+            
+            for vertice in self.getVertices():
+                if(self.visited[vertice] == False):
+                    return False
+            
+            for edge in self.getEdges():
+                if(self.discovered[edge] == False):
+                    return False;
+        else:
+            return self.isConnected() and not self.hasCicle()
+
+        return True
+    
+    def getForestGenerator(self):
+        
+        newGraph = self.getGraphInstance()
+        
+        newGraph.createVertices(self.getVertices())
+        
+        self.fullSearch()
+        
+        for edge in list(self.getEdges().values()):
+            symbolic_edge = self.getSymbolicEdge(edge[0], edge[1])
+            if self.discovered[symbolic_edge]:
+                newGraph.createEdge(edge)
+                
+        return newGraph
+        
+    def getGraphInstance(self, copy = False):
+        raise Exception('graphInstance() Not Implemented! You need to Implement in your class simply returning its self new instance')
+        
         
     
