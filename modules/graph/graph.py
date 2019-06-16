@@ -1,3 +1,4 @@
+from collections import deque
 class Graph:
     
     VERTICES_KEY = 'vertices'
@@ -64,6 +65,10 @@ class Graph:
             return
         
         raise Exception('Vertice is already in Graph!')
+        
+    def createVertices(self, vertices):
+        for vertice in vertices:
+            self.createVertice(vertice)
             
     def createEdge(self, edge):
         if (self.edgeExists(edge) == False):
@@ -95,9 +100,9 @@ class Graph:
     def search(self, vertice = None):
         
         if vertice is None:
-            # Choosing Randomly Doesn't Work
+            # Choosing Randomly Doesn't Work so instead choose the first one
             # root_vertice = random.choices(list(self.list_graph.keys()), k=1)
-            root_vertice = list(self.list_graph.keys())
+            root_vertice = list(self.getVertices())
             self.visited[root_vertice[0]] = True
         else:
             self.visited[vertice] = True
@@ -145,7 +150,7 @@ class Graph:
 
         return True
     
-    def getForestGenerator(self):
+    def getForestGeneratorGraph(self):
         
         newGraph = self.getGraphInstance()
         
@@ -159,7 +164,85 @@ class Graph:
                 newGraph.createEdge(edge)
                 
         return newGraph
+    
+    
+    def depthSearch(self, vertice, recursive = False):
         
+        self.visited[vertice] = True;
+        
+        if(recursive):
+            for neighborhoodVertice in self.getVerticeNeighborhood(vertice):
+                if(self.visited[neighborhoodVertice]):
+                    if not self.explored[self.getSymbolicEdge(vertice, neighborhoodVertice)]:
+                        self.explored[self.getSymbolicEdge(vertice, neighborhoodVertice)], self.explored[self.getSymbolicEdge(neighborhoodVertice,vertice)] = True, True
+                else:
+                    self.explored[self.getSymbolicEdge(vertice, neighborhoodVertice)], self.explored[self.getSymbolicEdge(neighborhoodVertice,vertice)] = True, True
+                    self.discovered[self.getSymbolicEdge(vertice, neighborhoodVertice)], self.discovered[self.getSymbolicEdge(neighborhoodVertice,vertice)] = True, True
+                    self.depthSearch(neighborhoodVertice, True)
+        else:
+            stack = []
+            stack.append([vertice, self.getVerticeNeighborhoodAfter(vertice)])
+
+            while(stack):
+                topStack = stack.pop()
+                vertice = topStack[0]
+                nextNeighborhoodVertice = topStack[1]
+
+                if(nextNeighborhoodVertice > 0):
+                    stack.append([vertice,self.getVerticeNeighborhoodAfter(vertice,nextNeighborhoodVertice)])
+                   
+                    if(self.visited[nextNeighborhoodVertice]):
+                        if(not self.explored[self.getSymbolicEdge(vertice, nextNeighborhoodVertice)]):
+                            self.explored[self.getSymbolicEdge(vertice, nextNeighborhoodVertice)], self.explored[self.getSymbolicEdge(nextNeighborhoodVertice,vertice)] = True, True
+                    else:
+                        self.explored[self.getSymbolicEdge(vertice, nextNeighborhoodVertice)], self.explored[self.getSymbolicEdge(nextNeighborhoodVertice,vertice)] = True, True
+                        self.discovered[self.getSymbolicEdge(vertice, nextNeighborhoodVertice)], self.discovered[self.getSymbolicEdge(nextNeighborhoodVertice,vertice)] = True, True
+                        self.visited[nextNeighborhoodVertice] = True
+                        stack.append([nextNeighborhoodVertice, self.getVerticeNeighborhoodAfter(nextNeighborhoodVertice)])
+                    
+    def getVerticeNeighborhoodAfter(self, vertice, neighborhoodGet = False):
+        
+        listVerticeNeighborhood = self.getVerticeNeighborhood(vertice)
+        
+        if not listVerticeNeighborhood:
+            return 0
+        else:
+            if(neighborhoodGet == False):
+                return listVerticeNeighborhood[0]
+        
+        indexAfter = listVerticeNeighborhood.index(neighborhoodGet)+1
+        try:
+            if(listVerticeNeighborhood[indexAfter]):
+                return listVerticeNeighborhood[indexAfter]
+        except IndexError:  
+            return 0
+
+    def breadthSearch(self, vertice):
+        
+        self.visited[vertice] = True;
+        queue = deque([])
+        queue.append(vertice)
+
+        while(queue):
+            vertice = queue.popleft()
+            for neighborhoodVertice in self.getVerticeNeighborhood(vertice):
+                if(self.visited[neighborhoodVertice]):
+                    if(not self.explored[self.getSymbolicEdge(vertice, neighborhoodVertice)]):
+                        self.explored[self.getSymbolicEdge(vertice, neighborhoodVertice)], self.explored[self.getSymbolicEdge(neighborhoodVertice,vertice)] = True, True
+                else:
+                    self.explored[self.getSymbolicEdge(vertice, neighborhoodVertice)], self.explored[self.getSymbolicEdge(neighborhoodVertice,vertice)] = True, True
+                    self.discovered[self.getSymbolicEdge(vertice, neighborhoodVertice)], self.discovered[self.getSymbolicEdge(neighborhoodVertice,vertice)] = True, True
+                    self.visited[neighborhoodVertice] = True
+                    queue.append(neighborhoodVertice)
+    
+    # ToDo -  DeterminarDistancias
+    def distancesToVertice(self, vertice):
+        pass
+    
+    def getVerticeNeighborhood(self, vertice):
+        raise Exception('getVerticeNeighborhood(vertice) Not Implemented! You need to Implement this method in your class!')
+        
+    # ToDo
     def getGraphInstance(self, copy = False):
         raise Exception('graphInstance() Not Implemented! You need to Implement in your class simply returning its self new instance')
         

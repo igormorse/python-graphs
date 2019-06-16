@@ -97,5 +97,3 @@ class AdjacencyListGraph(Graph):
         else:
             return AdjacencyListGraph(self.graph)
         
-        
-        

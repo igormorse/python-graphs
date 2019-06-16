@@ -11,13 +11,13 @@ with open('./data/graph.json', encoding='utf-8') as json_file:
     graphFile = json.load(json_file)
 
 
-## ------------- Adjacency Matrix Graph ------------
-
 graph = AdjacencyMatrixGraph(graphFile)
-
 # print(graph.verticeExists(0))
-
-#graph.getEdges();
+graph.createVertice('a')
+graph.breadthSearch(1)
+#graph.show()
+#print('getaresta')
+#print(graph.getEdges())
 
 #graph.show()
 
@@ -39,17 +39,16 @@ graph = AdjacencyMatrixGraph(graphFile)
 # graph.show()
 
 # for i in range(1,7):
-    # graph.removeVertice(i)
+    #graph.removeVertice(i)
     
 # graph.show()
 
-#exit()
+exit()
 # print(graph.getVerticeNeighborhood(7))
 
 # ------------ Adjacency List Graph ------------------ #
 
-
-graph2 = AdjacencyListGraph(graphFile)
+# graph = AdjacencyListGraph(graphFile)
 
 # print(graph2.verticeExists(1))
 
@@ -58,35 +57,35 @@ graph2 = AdjacencyListGraph(graphFile)
 # print(graph2.getVerticeNeighborhood(2))
 
 
-graph2.createVertice('a')
-graph2.createVertice('b')
-graph2.createVertice('c')
+graph.createVertice('a')
+graph.createVertice('b')
+graph.createVertice('c')
 
-graph2.createEdge(['a','b'])
+graph.createEdge(['a','b'])
 
 # Connect Graph
-graph2.createEdge(['b','c'])
+graph.createEdge(['b','c'])
 
 # Add Cicle to Graph
-graph2.createEdge(['c', 'a'])
+graph.createEdge(['c', 'a'])
 
-graph2.show()
+graph.show()
 
-print("\nArestas: " + str(graph2.getEdges()))
-
-print("\nÉ Conexo: " + str(graph2.isConnected()))
-
-print("\nPossui Ciclo: " + str(graph2.hasCicle()))
-
-print("\nPossui Floresta: " + str(graph2.hasForest()))
-
-print("\nÉ Arvore: " + str(graph2.isTree()))
-
-print("\nFloresta Geradora: \n\n")
-
-print(graph2.getForestGenerator().show())
-
-# print("\nÉ Arvore Fast: " + str(graph2.isTreeFast()))
+#print("\nArestas: " + str(graph.getEdges()))
+#
+#print("\nÉ Conexo: " + str(graph.isConnected()))
+#
+#print("\nPossui Ciclo: " + str(graph.hasCicle()))
+#
+#print("\nPossui Floresta: " + str(graph.hasForest()))
+#
+#print("\nÉ Arvore: " + str(graph.isTree()))
+#
+#print("\nFloresta Geradora: \n\n")
+#
+#print(graph.getForestGeneratorGraph().show())
+#
+## print("\nÉ Arvore Fast: " + str(graph2.isTreeFast()))
 
 # print("\nDelete o Vertice: a\n")
 
