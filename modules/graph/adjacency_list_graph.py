@@ -96,4 +96,4 @@ class AdjacencyListGraph(Graph):
             return AdjacencyListGraph()
         else:
             return AdjacencyListGraph(self.graph)
-        
+    

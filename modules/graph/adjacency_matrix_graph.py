@@ -117,4 +117,4 @@ class AdjacencyMatrixGraph(Graph):
             return AdjacencyMatrixGraph()
         else:
             return AdjacencyMatrixGraph(self.graph)
-            
+    

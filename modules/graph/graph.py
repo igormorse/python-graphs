@@ -77,6 +77,17 @@ class Graph:
         
         raise Exception('Edge is already in Graph!')
         
+    def removeEdge(self, edge):
+        if (self.edgeExists(edge)):
+            del self.graph[self.EDGES_KEY][edge]
+            return
+        
+        raise Exception('Edge not Found in Graph!')
+        
+    def clearEdges(self):
+        for edge in self.getEdges():
+            self.removeEdge(edge)
+        
     def getSymbolicEdge(self, firstVertice, secondVertice):
         return str(firstVertice) + str(secondVertice)
         
@@ -90,6 +101,15 @@ class Graph:
     
     def initializeVertice(self, vertice):
         self.visited[vertice] = False
+        
+    def exploreEdge(self, firstVertice, secondVertice):
+        self.explored[self.getSymbolicEdge(firstVertice, secondVertice)] = True
+        self.explored[self.getSymbolicEdge(secondVertice, firstVertice)] = True
+        
+    def discoverEdge(self, firstVertice, secondVertice):
+        self.discovered[self.getSymbolicEdge(firstVertice, secondVertice)] = True
+        self.discovered[self.getSymbolicEdge(secondVertice, firstVertice)] = True
+        
         
     def fullSearch(self):
 
@@ -174,10 +194,10 @@ class Graph:
             for neighborhoodVertice in self.getVerticeNeighborhood(vertice):
                 if(self.visited[neighborhoodVertice]):
                     if not self.explored[self.getSymbolicEdge(vertice, neighborhoodVertice)]:
-                        self.explored[self.getSymbolicEdge(vertice, neighborhoodVertice)], self.explored[self.getSymbolicEdge(neighborhoodVertice,vertice)] = True, True
+                        self.exploreEdge(vertice, neighborhoodVertice)
                 else:
-                    self.explored[self.getSymbolicEdge(vertice, neighborhoodVertice)], self.explored[self.getSymbolicEdge(neighborhoodVertice,vertice)] = True, True
-                    self.discovered[self.getSymbolicEdge(vertice, neighborhoodVertice)], self.discovered[self.getSymbolicEdge(neighborhoodVertice,vertice)] = True, True
+                    self.exploreEdge(vertice, neighborhoodVertice)
+                    self.discoverEdge(vertice, neighborhoodVertice)
                     self.depthSearch(neighborhoodVertice, True)
         else:
             stack = []
@@ -193,27 +213,27 @@ class Graph:
                    
                     if(self.visited[nextNeighborhoodVertice]):
                         if(not self.explored[self.getSymbolicEdge(vertice, nextNeighborhoodVertice)]):
-                            self.explored[self.getSymbolicEdge(vertice, nextNeighborhoodVertice)], self.explored[self.getSymbolicEdge(nextNeighborhoodVertice,vertice)] = True, True
+                            self.exploreEdge(vertice, neighborhoodVertice)
                     else:
-                        self.explored[self.getSymbolicEdge(vertice, nextNeighborhoodVertice)], self.explored[self.getSymbolicEdge(nextNeighborhoodVertice,vertice)] = True, True
-                        self.discovered[self.getSymbolicEdge(vertice, nextNeighborhoodVertice)], self.discovered[self.getSymbolicEdge(nextNeighborhoodVertice,vertice)] = True, True
+                        self.exploreEdge(vertice, neighborhoodVertice)
+                        self.discoverEdge(vertice, neighborhoodVertice)
                         self.visited[nextNeighborhoodVertice] = True
                         stack.append([nextNeighborhoodVertice, self.getVerticeNeighborhoodAfter(nextNeighborhoodVertice)])
                     
-    def getVerticeNeighborhoodAfter(self, vertice, neighborhoodGet = False):
+    def getVerticeNeighborhoodAfter(self, vertice, neighborhoodVertice = None):
         
-        listVerticeNeighborhood = self.getVerticeNeighborhood(vertice)
+        verticeNeighborhoodList = self.getVerticeNeighborhood(vertice)
         
-        if not listVerticeNeighborhood:
+        if not verticeNeighborhoodList:
             return 0
         else:
-            if(neighborhoodGet == False):
-                return listVerticeNeighborhood[0]
+            if(neighborhoodVertice is None):
+                return verticeNeighborhoodList[0]
         
-        indexAfter = listVerticeNeighborhood.index(neighborhoodGet)+1
+        indexAfter = verticeNeighborhoodList.index(neighborhoodVertice)+1
         try:
-            if(listVerticeNeighborhood[indexAfter]):
-                return listVerticeNeighborhood[indexAfter]
+            if(verticeNeighborhoodList[indexAfter]):
+                return verticeNeighborhoodList[indexAfter]
         except IndexError:  
             return 0
 
@@ -228,16 +248,112 @@ class Graph:
             for neighborhoodVertice in self.getVerticeNeighborhood(vertice):
                 if(self.visited[neighborhoodVertice]):
                     if(not self.explored[self.getSymbolicEdge(vertice, neighborhoodVertice)]):
-                        self.explored[self.getSymbolicEdge(vertice, neighborhoodVertice)], self.explored[self.getSymbolicEdge(neighborhoodVertice,vertice)] = True, True
+                        self.exploreEdge(vertice, neighborhoodVertice)
                 else:
-                    self.explored[self.getSymbolicEdge(vertice, neighborhoodVertice)], self.explored[self.getSymbolicEdge(neighborhoodVertice,vertice)] = True, True
-                    self.discovered[self.getSymbolicEdge(vertice, neighborhoodVertice)], self.discovered[self.getSymbolicEdge(neighborhoodVertice,vertice)] = True, True
+                    self.exploreEdge(vertice, neighborhoodVertice)
+                    self.discoverEdge(vertice, neighborhoodVertice)
                     self.visited[neighborhoodVertice] = True
                     queue.append(neighborhoodVertice)
     
-    # ToDo -  DeterminarDistancias
     def distancesToVertice(self, vertice):
-        pass
+        
+        distances = {}
+        
+        for vertice in self.getVertices():
+            distances[vertice] = None
+        
+        queue = deque([])
+        
+        self.visited[vertice] = True
+        
+        queue.append([vertice, 1])
+        
+        while(queue):
+            popedEdge = queue.popleft()
+            
+            for neighborhoodVertice in self.getVerticeNeighborhood(vertice):
+                if self.visited[neighborhoodVertice]:
+                    if not self.explored[self.getSymbolicEdge(vertice, neighborhoodVertice)]:
+                        self.exploreEdge(vertice, neighborhoodVertice)
+                else:
+                    self.exploreEdge(vertice, neighborhoodVertice)
+                    self.discoverEdge(vertice, neighborhoodVertice)
+                    
+                    self.visited[neighborhoodVertice] = True
+                    
+                    distances[neighborhoodVertice] = popedEdge[1]
+    
+                    queue.append([neighborhoodVertice, popedEdge[1] + 1])
+                    
+        return distances
+        
+    @staticmethod
+    def getMaxFlow(digraph, source, sink):
+        
+        # if self.digraph = False:
+            # Exception Grafo não é Digrafo
+        
+        flow = {}
+        
+        max_flow_digraph = 0
+        
+        for edge in digraph.getEdges():
+            flow[digraph.getSymbolicEdge(edge[0], edge[1])] = 0
+            
+        residual_digraph = getResidualGraph(digraph, source, sink)
+        
+        digraph_path = BuscaCaminhoAumentante(residual_digraph, source, sink) # Verificar também como implementar essa função.
+        
+        residual_capacity = 0
+        
+        while digraph_path != None:
+            residual_capacity = digraph_path.map {|uv| }.min() # Implementação em Ruby, tem que ver como faz em Python
+            
+            max_flow_digraph += residual_capacity
+            
+            for edge in digraph_path.getEdges():
+                
+                symbolic_edge = digraph_path.getSymbolicEdge(edge[0], edge[1])
+                
+                if (sink[symbolic_edge]):
+                    flow[symbolic_edge] += residual_capacity
+                else
+                    flow[symbolic_edge] -= residual_capacity
+                    
+            residual_digraph = getResidualGraph(digraph, source, sink)
+            digraph_path = BuscaCaminhoAumentante(residual_digraph, source, sink) # Verificar também como implementar essa função.
+            
+        return max_flow_digraph
+    
+    @staticmethod
+    def getResidualGraph(digraph, source, sink):
+        
+        # if self.digraph = False:
+            # Exception Grafo não é Digrafo
+        
+        residual_digraph = digraph.getGraphInstance(True)
+        
+        residual_digraph.clearEdges()
+        
+        capacity, flow, reverse_edge = {}, {}, {}
+        
+        for edge in digraph.getEdges():
+            
+            symbolic_edge = digraph.getSymbolicEdge(edge[0], edge[1])
+            
+            reverse_symbolic_edge = digraph.getSymbolicEdge(edge[1], edge[0])
+            
+            if (capacity[symbolic_edge] - flow[symbolic_edge]) > 0:
+                residual_digraph.createEdge(edge)
+                reverse_edge[symbolic_edge] = capacity[symbolic_edge] - flow[symbolic_edge]
+                sink[symbolic_edge] = True
+            elif (flow[symbolic_edge] > 0):
+                residual_digraph.createEdge([edge[1], edge[0]])
+                reverse_edge[reverse_symbolic_edge] = flow[symbolic_edge]
+                sink[reverse_symbolic_edge] = False
+                
+        return residual_digraph
+                
     
     def getVerticeNeighborhood(self, vertice):
         raise Exception('getVerticeNeighborhood(vertice) Not Implemented! You need to Implement this method in your class!')

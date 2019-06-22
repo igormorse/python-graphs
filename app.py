@@ -11,50 +11,25 @@ with open('./data/graph.json', encoding='utf-8') as json_file:
     graphFile = json.load(json_file)
 
 
-graph = AdjacencyMatrixGraph(graphFile)
-# print(graph.verticeExists(0))
+graph = AdjacencyMatrixGraph()
+
 graph.createVertice('a')
-graph.breadthSearch(1)
-#graph.show()
-#print('getaresta')
-#print(graph.getEdges())
+graph.createVertice('b')
+graph.createVertice('c')
 
-#graph.show()
+graph.createEdge(['a','b'])
 
-#print("\n\nAdicionando o Vertice: a\n\n")
+# Connect Graph
+graph.createEdge(['b','c'])
 
-#graph.createVertice('a')
+# Add Cicle to Graph
+graph.createEdge(['c', 'a'])
 
-#graph.show()
-
-#graph.createEdge([1,3])
-#graph.removeEdge([2,1])
-
-#graph.getEdges()
-
-#graph.show()
-#graph.show()
-# graph.removeVertice('a')
-
-# graph.show()
-
-# for i in range(1,7):
-    #graph.removeVertice(i)
-    
-# graph.show()
-
-exit()
-# print(graph.getVerticeNeighborhood(7))
+print(graph.getForestGeneratorGraph().show())
 
 # ------------ Adjacency List Graph ------------------ #
 
-# graph = AdjacencyListGraph(graphFile)
-
-# print(graph2.verticeExists(1))
-
-#graph2.show()
-
-# print(graph2.getVerticeNeighborhood(2))
+graph = AdjacencyListGraph()
 
 
 graph.createVertice('a')
@@ -69,7 +44,7 @@ graph.createEdge(['b','c'])
 # Add Cicle to Graph
 graph.createEdge(['c', 'a'])
 
-graph.show()
+# graph.show()
 
 #print("\nArestas: " + str(graph.getEdges()))
 #
@@ -83,27 +58,8 @@ graph.show()
 #
 #print("\nFloresta Geradora: \n\n")
 #
-#print(graph.getForestGeneratorGraph().show())
+print(graph.getForestGeneratorGraph().show())
 #
 ## print("\nÉ Arvore Fast: " + str(graph2.isTreeFast()))
 
-# print("\nDelete o Vertice: a\n")
 
-#print(graph2.getVerticeNeighborhood('a'))
-
-#graph2.removeVertice('a')
-
-#graph2.show()
-
-# for i in range(1,7):
-# graph2.removeVertice(1)
-# graph2.removeVertice(2)
-# graph2.removeVertice(3)
-    
-# print(graph2.getVerticeNeighborhood('a'))
-
-# Tamanho da Vizinhança
-# for vertice in graph2.getVertices():
-    # print("Vertice: " + str(vertice))
-    # print(len(graph2.getVerticeNeighborhood(vertice)))
-    # print("\n")
