@@ -1,4 +1,5 @@
 import json
+import time
 
 from modules.graph.adjacency_matrix_graph import AdjacencyMatrixGraph
 
@@ -25,11 +26,11 @@ graph.createEdge(['b','c'])
 # Add Cicle to Graph
 graph.createEdge(['c', 'a'])
 
-print(graph.getForestGeneratorGraph().show())
+# print(graph.getForestGeneratorGraph().show())
 
 # ------------ Adjacency List Graph ------------------ #
 
-graph = AdjacencyListGraph()
+graph = AdjacencyListGraph(None, True)
 
 
 graph.createVertice('a')
@@ -44,7 +45,25 @@ graph.createEdge(['b','c'])
 # Add Cicle to Graph
 graph.createEdge(['c', 'a'])
 
-# graph.show()
+
+print("Show:\n")
+graph.show()
+
+print("\n\nGRAFO CAMINHO: \n")
+
+path_graph = graph.breadthStartToEndSearch('a', 'c')
+
+path_graph.show()
+
+print("\n\n")
+
+exit()
+
+begin = time.time()
+print("\nÉ Conexo: " + str(graph.isConnected()))
+end = time.time()
+
+print("Tempo: ", end - begin )
 
 #print("\nArestas: " + str(graph.getEdges()))
 #
@@ -58,7 +77,7 @@ graph.createEdge(['c', 'a'])
 #
 #print("\nFloresta Geradora: \n\n")
 #
-print(graph.getForestGeneratorGraph().show())
+#print(graph.getForestGeneratorGraph().show())
 #
 ## print("\nÉ Arvore Fast: " + str(graph2.isTreeFast()))
 

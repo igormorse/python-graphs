@@ -1,15 +1,15 @@
 from modules.graph.graph import Graph
+import copy
 
 import random        
 class AdjacencyListGraph(Graph):
     
-    def __init__(self, graph = None):
+    def __init__(self, graph = None, directed = False):
         
-        super().__init__(graph)
+        super().__init__(graph, directed)
         
         self.list_graph = {}
         
-        # Poderia utilizar Lista aqui, não sei quanto vantajoso é.
         for vertice in super().getVertices():
             #self.list_graph[vertice] = []
             self.createVertice(vertice)
@@ -30,16 +30,23 @@ class AdjacencyListGraph(Graph):
         for vertice in self.getVertices():
             for neighborhoodVertice in self.getVerticeNeighborhood(vertice):
                 symbolic_edge = self.getSymbolicEdge(vertice, neighborhoodVertice)
-                inversed_symbolic_edge = self.getSymbolicEdge(neighborhoodVertice, vertice)
-                if symbolic_edge not in edges and inversed_symbolic_edge not in edges:
-                    edges[symbolic_edge] = [vertice, neighborhoodVertice]
+                
+                if (self.directed == False):
+                    inversed_symbolic_edge = self.getSymbolicEdge(neighborhoodVertice, vertice)
+                    if symbolic_edge not in edges and inversed_symbolic_edge not in edges:
+                        edges[symbolic_edge] = [vertice, neighborhoodVertice]
+                else:
+                    if symbolic_edge not in edges:
+                        edges[symbolic_edge] = [vertice, neighborhoodVertice]
         
         return edges
     
     def createEdge(self, edge):
         if (self.edgeExists(edge) == False):
             self.list_graph[edge[0]].append(edge[1])
-            self.list_graph[edge[1]].append(edge[0])
+            
+            if (self.directed == False):
+                self.list_graph[edge[1]].append(edge[0])
             
             self.initializeEdge(edge)
             
@@ -54,7 +61,10 @@ class AdjacencyListGraph(Graph):
     def removeEdge(self, edge):
         if (self.edgeExists(edge) == True):
             self.list_graph[edge[0]].remove(edge[1])
-            self.list_graph[edge[1]].remove(edge[0])
+            
+            if (self.directed == False):
+                self.list_graph[edge[1]].remove(edge[0])
+                
             return
         
         raise Exception('Edge: {0} - {1} is not in Graph!'.format(edge[0],edge[1]))
@@ -95,5 +105,5 @@ class AdjacencyListGraph(Graph):
         if not copy:
             return AdjacencyListGraph()
         else:
-            return AdjacencyListGraph(self.graph)
+            return copy.deepcopy(self)
     

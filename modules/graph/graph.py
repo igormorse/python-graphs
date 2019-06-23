@@ -10,12 +10,14 @@ class Graph:
     ADJACENCY_MATRIX = 'adjacency_matrix'
     AJACENCY_LIST = 'adjacency_list'
     
-    def __init__(self, graph = None):
+    def __init__(self, graph = None, directed = False):
         
         # Search Implementation
         self.visited = {}
         self.explored = {}
         self.discovered = {}
+        
+        self.directed = directed
         
         if graph is not None:
             self.graph = graph
@@ -93,22 +95,30 @@ class Graph:
         
     def initializeEdge(self, edge):
         symbolic_edge = self.getSymbolicEdge(edge[0], edge[1])
-            
-        inversed_symbolic_edge = self.getSymbolicEdge(edge[1], edge[0])
         
-        self.explored[symbolic_edge], self.explored[inversed_symbolic_edge] = False, False
-        self.discovered[symbolic_edge], self.discovered[inversed_symbolic_edge] = False, False
+        self.explored[symbolic_edge] = False
+        
+        self.discovered[symbolic_edge] = False
+    
+        if (self.directed == False):
+            inversed_symbolic_edge = self.getSymbolicEdge(edge[1], edge[0])
+            self.explored[inversed_symbolic_edge] = False
+            self.discovered[inversed_symbolic_edge] = False
     
     def initializeVertice(self, vertice):
         self.visited[vertice] = False
         
     def exploreEdge(self, firstVertice, secondVertice):
         self.explored[self.getSymbolicEdge(firstVertice, secondVertice)] = True
-        self.explored[self.getSymbolicEdge(secondVertice, firstVertice)] = True
+        
+        if (self.directed == False):
+            self.explored[self.getSymbolicEdge(secondVertice, firstVertice)] = True
         
     def discoverEdge(self, firstVertice, secondVertice):
         self.discovered[self.getSymbolicEdge(firstVertice, secondVertice)] = True
-        self.discovered[self.getSymbolicEdge(secondVertice, firstVertice)] = True
+        
+        if (self.directed == False):
+            self.discovered[self.getSymbolicEdge(secondVertice, firstVertice)] = True
         
         
     def fullSearch(self):
@@ -237,11 +247,11 @@ class Graph:
         except IndexError:  
             return 0
 
-    def breadthSearch(self, vertice):
+    def breadthStartSearch(self, start_vertice):
         
-        self.visited[vertice] = True;
+        self.visited[start_vertice] = True;
         queue = deque([])
-        queue.append(vertice)
+        queue.append(start_vertice)
 
         while(queue):
             vertice = queue.popleft()
@@ -254,6 +264,37 @@ class Graph:
                     self.discoverEdge(vertice, neighborhoodVertice)
                     self.visited[neighborhoodVertice] = True
                     queue.append(neighborhoodVertice)
+                    
+    def breadthStartToEndSearch(self, start_vertice, end_vertice):
+        
+        self.visited[start_vertice] = True;
+        queue = deque([])
+        queue.append(start_vertice)
+        
+        graph = self.getGraphInstance()
+
+        graph.createVertice(start_vertice)
+
+        while(queue):
+            vertice = queue.popleft()
+            for neighborhoodVertice in self.getVerticeNeighborhood(vertice):
+                if(self.visited[neighborhoodVertice]):
+                    if(not self.explored[self.getSymbolicEdge(vertice, neighborhoodVertice)]):
+                        self.exploreEdge(vertice, neighborhoodVertice)
+                        graph.createVertice(neighborhoodVertice)
+                        graph.createEdge([vertice, neighborhoodVertice])
+                else:
+                    self.exploreEdge(vertice, neighborhoodVertice)
+                    self.discoverEdge(vertice, neighborhoodVertice)
+                    self.visited[neighborhoodVertice] = True
+                    queue.append(neighborhoodVertice)
+                    graph.createVertice(neighborhoodVertice)
+                    graph.createEdge([vertice, neighborhoodVertice])
+                
+                if (neighborhoodVertice == end_vertice):
+                    return graph
+            
+        return None
     
     def distancesToVertice(self, vertice):
         
@@ -306,8 +347,8 @@ class Graph:
         
         residual_capacity = 0
         
-        while digraph_path != None:
-            residual_capacity = digraph_path.map {|uv| }.min() # Implementação em Ruby, tem que ver como faz em Python
+        while (digraph_path != None):
+            # residual_capacity = digraph_path.map {|uv| }.min() # Implementação em Ruby, tem que ver como faz em Python
             
             max_flow_digraph += residual_capacity
             
@@ -317,7 +358,7 @@ class Graph:
                 
                 if (sink[symbolic_edge]):
                     flow[symbolic_edge] += residual_capacity
-                else
+                else:
                     flow[symbolic_edge] -= residual_capacity
                     
             residual_digraph = getResidualGraph(digraph, source, sink)
