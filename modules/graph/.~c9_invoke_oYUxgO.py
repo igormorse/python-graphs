@@ -38,6 +38,7 @@ class AdjacencyListGraph(Graph):
                 else:
                     if symbolic_edge not in edges:
                         edges[symbolic_edge] = [vertice, neighborhoodVertice]
+        
         return edges
     
     def createEdge(self, edge):
@@ -55,9 +56,6 @@ class AdjacencyListGraph(Graph):
     def edgeExists(self, edge):
         if (self.verticeExists(edge[0]) and self.verticeExists(edge[1])):
             return edge[1] in self.list_graph[edge[0]]
-            
-        print(edge)
-        self.show()
         return False
         
     def removeEdge(self, edge):
@@ -103,9 +101,9 @@ class AdjacencyListGraph(Graph):
             return self.list_graph[vertice]
         raise Exception('Vertice: {0} is not in Graph!'.format(vertice))
 
-    def getGraphInstance(self, deep_copy = False, directed = False):
-        if not deep_copy:
-            return AdjacencyListGraph(directed = directed)
+    def getGraphInstance(self, copy = False, params = ):
+        if not copy:
+            return AdjacencyListGraph()
         else:
             return copy.deepcopy(self)
     

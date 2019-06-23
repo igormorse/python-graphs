@@ -10,6 +10,8 @@ class Graph:
     ADJACENCY_MATRIX = 'adjacency_matrix'
     AJACENCY_LIST = 'adjacency_list'
     
+    C
+    
     def __init__(self, graph = None, directed = False):
         
         # Search Implementation
@@ -18,12 +20,6 @@ class Graph:
         self.discovered = {}
         
         self.directed = directed
-        
-        self.capacity = {}
-        
-        self.flow = {}
-        
-        self.sink = {}
         
         if graph is not None:
             self.graph = graph
@@ -93,7 +89,7 @@ class Graph:
         raise Exception('Edge not Found in Graph!')
         
     def clearEdges(self):
-        for edge in list(self.getEdges().values()):
+        for edge in self.getEdges():
             self.removeEdge(edge)
         
     def getSymbolicEdge(self, firstVertice, secondVertice):
@@ -105,12 +101,6 @@ class Graph:
         self.explored[symbolic_edge] = False
         
         self.discovered[symbolic_edge] = False
-        
-        self.createFlow(edge, 0)
-        
-        self.createCapacity(edge, 0)
-        
-        self.sink[symbolic_edge] = False
     
         if (self.directed == False):
             inversed_symbolic_edge = self.getSymbolicEdge(edge[1], edge[0])
@@ -132,19 +122,6 @@ class Graph:
         if (self.directed == False):
             self.discovered[self.getSymbolicEdge(secondVertice, firstVertice)] = True
         
-    def createCapacity(self, edge, capacity = 0):
-        if self.edgeExists(edge):
-            self.capacity[self.getSymbolicEdge(edge[0], edge[1])] = capacity
-            return True
-            
-        return False
-        
-    def createFlow(self, edge, flow = 0):
-        if self.edgeExists(edge):
-            self.flow[self.getSymbolicEdge(edge[0], edge[1])] = flow
-            return True
-            
-        return False
         
     def fullSearch(self):
 
@@ -197,7 +174,7 @@ class Graph:
                 if(self.visited[vertice] == False):
                     return False
             
-            for edge in list(self.getEdges().values()):
+            for edge in self.getEdges():
                 if(self.discovered[edge] == False):
                     return False;
         else:
@@ -296,8 +273,8 @@ class Graph:
         queue = deque([])
         queue.append(start_vertice)
         
-        graph = self.getGraphInstance(directed = True)
-
+        graph = self.getGraphInstance()
+        pri
         graph.createVertice(start_vertice)
    
         while(queue):
@@ -308,6 +285,7 @@ class Graph:
                     if not self.explored[self.getSymbolicEdge(vertice, neighborhoodVertice)]:
                         self.exploreEdge(vertice, neighborhoodVertice)
                         graph.createEdge([vertice, neighborhoodVertice])
+                        print([vertice, neighborhoodVertice])
                 else:
                     self.exploreEdge(vertice, neighborhoodVertice)
                     self.discoverEdge(vertice, neighborhoodVertice)
@@ -315,6 +293,12 @@ class Graph:
                     queue.append(neighborhoodVertice)
                     graph.createVertice(neighborhoodVertice)
                     graph.createEdge([vertice, neighborhoodVertice])
+                    
+                    print("\nVertice: " + neighborhoodVertice)
+                    
+                    print("\nCaminho Atual:\n")
+                    
+                    graph.show()
                     
                 if (neighborhoodVertice == end_vertice):
                     return graph
@@ -353,21 +337,22 @@ class Graph:
                     
         return distances
         
-    def getMaxFlow(self, source, sink):
+    @staticmethod
+    def getMaxFlow(digraph, source, sink):
         
-        if (self.directed == False):
-            raise Exception('Current Graph is not Directed! Transform it to Directed Graph to use MaxFlow!')
+        # if self.digraph = False:
+            # Exception Grafo não é Digrafo
         
         flow = {}
         
         max_flow_digraph = 0
         
-        for edge in list(self.getEdges().values()):
-            flow[self.getSymbolicEdge(edge[0], edge[1])] = 0
+        for edge in digraph.getEdges():
+            flow[digraph.getSymbolicEdge(edge[0], edge[1])] = 0
             
-        residual_digraph = self.getResidualGraph(source, sink)
+        residual_digraph = getResidualGraph(digraph, source, sink)
         
-        digraph_path = residual_digraph.breadthStartToEndSearch(source, sink)
+        digraph_path = BuscaCaminhoAumentante(residual_digraph, source, sink) # Verificar também como implementar essa função.
         
         residual_capacity = 0
         
@@ -380,44 +365,42 @@ class Graph:
                 
                 symbolic_edge = digraph_path.getSymbolicEdge(edge[0], edge[1])
                 
-                if (self.sink[symbolic_edge]):
-                    self.flow[symbolic_edge] += residual_capacity
+                if (sink[symbolic_edge]):
+                    flow[symbolic_edge] += residual_capacity
                 else:
-                    self.flow[symbolic_edge] -= residual_capacity
+                    flow[symbolic_edge] -= residual_capacity
                     
-            residual_digraph = self.getResidualGraph(source, sink)
-            digraph_path = residual_digraph.breadthStartToEndSearch(source, sink) # Verificar também como implementar essa função.
+            residual_digraph = getResidualGraph(digraph, source, sink)
+            digraph_path = BuscaCaminhoAumentante(residual_digraph, source, sink) # Verificar também como implementar essa função.
             
         return max_flow_digraph
     
-    def getResidualGraph(self, source, sink):
+    @staticmethod
+    def getResidualGraph(digraph, source, sink):
         
-        if (self.directed == False):
-            raise Exception('Current Graph is not Directed! Transform it to Directed Graph to use ResidualGraph!')
+        # if self.digraph = False:
+            # Exception Grafo não é Digrafo
         
-        residual_digraph = self.getGraphInstance(deep_copy = True)
-        
-        print("\n\nResidual Graph: \n\n")
-        residual_digraph.show()
+        residual_digraph = digraph.getGraphInstance(True)
         
         residual_digraph.clearEdges()
         
-        reverse_edge = {}
+        capacity, flow, reverse_edge = {}, {}, {}
         
-        for edge in list(self.getEdges().values()):
+        for edge in digraph.getEdges():
             
-            symbolic_edge = self.getSymbolicEdge(edge[0], edge[1])
+            symbolic_edge = digraph.getSymbolicEdge(edge[0], edge[1])
             
-            reverse_symbolic_edge = self.getSymbolicEdge(edge[1], edge[0])
+            reverse_symbolic_edge = digraph.getSymbolicEdge(edge[1], edge[0])
             
-            if (self.capacity[symbolic_edge] - self.flow[symbolic_edge]) > 0:
+            if (capacity[symbolic_edge] - flow[symbolic_edge]) > 0:
                 residual_digraph.createEdge(edge)
-                reverse_edge[symbolic_edge] = self.capacity[symbolic_edge] - self.flow[symbolic_edge]
-                self.sink[symbolic_edge] = True
-            elif (self.flow[symbolic_edge] > 0):
+                reverse_edge[symbolic_edge] = capacity[symbolic_edge] - flow[symbolic_edge]
+                sink[symbolic_edge] = True
+            elif (flow[symbolic_edge] > 0):
                 residual_digraph.createEdge([edge[1], edge[0]])
-                reverse_edge[reverse_symbolic_edge] = self.flow[symbolic_edge]
-                self.sink[reverse_symbolic_edge] = False
+                reverse_edge[reverse_symbolic_edge] = flow[symbolic_edge]
+                sink[reverse_symbolic_edge] = False
                 
         return residual_digraph
                 
