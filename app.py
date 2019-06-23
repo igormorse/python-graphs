@@ -38,6 +38,7 @@ for i in range(1,9):
 graph.createEdge([1,2])
 graph.createCapacity([1,2], 10)
 
+
 graph.createEdge([1,3])
 graph.createCapacity([1,3], 5)
 graph.createEdge([1,4])
@@ -79,11 +80,29 @@ graph.createCapacity([7,3], 6)
 graph.createEdge([7,8])
 graph.createCapacity([7,8], 10)
 
+# print(graph.distancesToVertice(1))
 
+# graphs_paths = graph.getGraphPaths(1, 8)
+
+# for graph in graphs_paths:
+    # graph.show()
+
+# print("\n\nGRAFO CAMINHO: \n")
+# test = graph.breadthStartToEndSearch(1,8)
+
+# test.getGraphPaths(1, 8, visited, path)
+
+#test.show()
+
+#print(test.distancesToVertice(1))
+
+# exit()
 print("\n\nGraph: ")
-graph.show()
+# graph.show()
 
-print("\n\nMax Flow: " + graph.getMaxFlow(1, 8))
+print("\n\nMax Flow: " + str(graph.getMaxFlow(1, 8)))
+
+exit()
 
 # ----------
 graph = AdjacencyListGraph(None, True)

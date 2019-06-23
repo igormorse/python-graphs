@@ -56,8 +56,6 @@ class AdjacencyListGraph(Graph):
         if (self.verticeExists(edge[0]) and self.verticeExists(edge[1])):
             return edge[1] in self.list_graph[edge[0]]
             
-        print(edge)
-        self.show()
         return False
         
     def removeEdge(self, edge):

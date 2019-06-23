@@ -1,4 +1,6 @@
 from collections import deque
+import random
+
 class Graph:
     
     VERTICES_KEY = 'vertices'
@@ -24,6 +26,8 @@ class Graph:
         self.flow = {}
         
         self.sink = {}
+        
+        self.reverse_edge = {}
         
         if graph is not None:
             self.graph = graph
@@ -291,12 +295,11 @@ class Graph:
                     queue.append(neighborhoodVertice)
                     
     def breadthStartToEndSearch(self, start_vertice, end_vertice):
-        
         self.visited[start_vertice] = True;
         queue = deque([])
         queue.append(start_vertice)
         
-        graph = self.getGraphInstance(directed = True)
+        graph = self.getGraphInstance(directed = self.directed)
 
         graph.createVertice(start_vertice)
    
@@ -321,12 +324,71 @@ class Graph:
             
         return None
     
+    def getGraphPaths(self, origin_vertice, destination_vertice):
+        
+        paths = []
+        
+        graphs_paths = []
+        
+        visited = {}
+
+        for vertice in self.getVertices():
+            visited[vertice] = False
+        
+        self.getAllGraphPaths(origin_vertice, destination_vertice, visited, paths, graphs_paths)
+        
+        return graphs_paths
+    
+    def getAllGraphPaths(self, origin_vertice, destination_vertice, visited, paths, graphs_paths): 
+  
+        # Mark the current node as visited and store in path 
+        visited[origin_vertice] = True
+        paths.append(origin_vertice) 
+  
+        # If current vertex is same as destination, then print 
+        # current path[] 
+        if (origin_vertice == destination_vertice):
+            
+            graph = self.getGraphInstance(directed = self.directed)
+            
+            index = 0
+            
+            for i in range(len(paths)):
+                
+                vertice = paths[i]
+                
+                if not graph.verticeExists(vertice):
+                    graph.createVertice(vertice)
+                
+                if (i < len(paths) - 1):
+                    
+                    next_vertice = paths[i + 1]
+                    
+                    if not graph.verticeExists(next_vertice):
+                        graph.createVertice(next_vertice)
+                    
+                    graph.createEdge([vertice, next_vertice])
+                    
+                graphs_paths.append(graph)
+
+        else: 
+            # If current vertex is not destination 
+            #Recur for all the vertices adjacent to this vertex 
+            for neighborhoodVertice in self.getVerticeNeighborhood(origin_vertice): 
+                if (visited[neighborhoodVertice] == False): 
+                    self.getAllGraphPaths(neighborhoodVertice, destination_vertice, visited, paths, graphs_paths) 
+                      
+        # Remove current vertex from path[] and mark it as unvisited 
+        paths.pop()
+        
+        visited[origin_vertice] = False
+    
     def distancesToVertice(self, vertice):
         
         distances = {}
         
-        for vertice in self.getVertices():
-            distances[vertice] = None
+        for _vertice in self.getVertices():
+            distances[_vertice] = None
         
         queue = deque([])
         
@@ -334,16 +396,16 @@ class Graph:
         
         queue.append([vertice, 1])
         
-        while(queue):
+        while(len(queue) > 0):
             popedEdge = queue.popleft()
             
-            for neighborhoodVertice in self.getVerticeNeighborhood(vertice):
+            for neighborhoodVertice in self.getVerticeNeighborhood(popedEdge[0]):
                 if self.visited[neighborhoodVertice]:
-                    if not self.explored[self.getSymbolicEdge(vertice, neighborhoodVertice)]:
-                        self.exploreEdge(vertice, neighborhoodVertice)
+                    if not self.explored[self.getSymbolicEdge(popedEdge[0], neighborhoodVertice)]:
+                        self.exploreEdge(popedEdge[0], neighborhoodVertice)
                 else:
-                    self.exploreEdge(vertice, neighborhoodVertice)
-                    self.discoverEdge(vertice, neighborhoodVertice)
+                    self.exploreEdge(popedEdge[0], neighborhoodVertice)
+                    self.discoverEdge(popedEdge[0], neighborhoodVertice)
                     
                     self.visited[neighborhoodVertice] = True
                     
@@ -367,18 +429,29 @@ class Graph:
             
         residual_digraph = self.getResidualGraph(source, sink)
         
-        digraph_path = residual_digraph.breadthStartToEndSearch(source, sink)
+        digraph_path = random.choice(residual_digraph.breadthStartToEndSearch(source, sink).getGraphPaths(source, sink))
         
         residual_capacity = 0
         
         while (digraph_path != None):
-            # residual_capacity = digraph_path.map {|uv| }.min() # Implementação em Ruby, tem que ver como faz em Python
+            
+            residual_capacity = min(list(self.reverse_edge.values()))
             
             max_flow_digraph += residual_capacity
             
-            for edge in digraph_path.getEdges():
+            for edge in list(digraph_path.getEdges().values()):
                 
                 symbolic_edge = digraph_path.getSymbolicEdge(edge[0], edge[1])
+                
+                print("\n\nDigraph: \n")
+                residual_digraph.show()
+                
+                print("\n\nDigraph Path: \n")
+                digraph_path.show()
+                
+                print("\nEdge: " + str(edge))
+                
+                print("\nFlow: "+ str(self.flow))
                 
                 if (self.sink[symbolic_edge]):
                     self.flow[symbolic_edge] += residual_capacity
@@ -386,7 +459,11 @@ class Graph:
                     self.flow[symbolic_edge] -= residual_capacity
                     
             residual_digraph = self.getResidualGraph(source, sink)
-            digraph_path = residual_digraph.breadthStartToEndSearch(source, sink) # Verificar também como implementar essa função.
+            
+            digraph_path = residual_digraph.breadthStartToEndSearch(source, sink)
+            
+            if digraph_path is not None:
+                digraph_path = random.choice(digraph_path.getGraphPaths(source, sink)) # Verificar também como implementar essa função.
             
         return max_flow_digraph
     
@@ -412,11 +489,11 @@ class Graph:
             
             if (self.capacity[symbolic_edge] - self.flow[symbolic_edge]) > 0:
                 residual_digraph.createEdge(edge)
-                reverse_edge[symbolic_edge] = self.capacity[symbolic_edge] - self.flow[symbolic_edge]
+                self.reverse_edge[symbolic_edge] = self.capacity[symbolic_edge] - self.flow[symbolic_edge]
                 self.sink[symbolic_edge] = True
             elif (self.flow[symbolic_edge] > 0):
                 residual_digraph.createEdge([edge[1], edge[0]])
-                reverse_edge[reverse_symbolic_edge] = self.flow[symbolic_edge]
+                self.reverse_edge[reverse_symbolic_edge] = self.flow[symbolic_edge]
                 self.sink[reverse_symbolic_edge] = False
                 
         return residual_digraph
