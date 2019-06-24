@@ -1,8 +1,22 @@
 from modules.graph.graph import Graph
 
+#
+#   Class AdjacencyMatrixGraph
+#
+#   Parent: Graph
+#
+#   Implements Adjacency Matrix Graph Data Representation
+#   This class itself doesn't contain complex methods but only its data representation, that is a Matrix
+
 class AdjacencyMatrixGraph(Graph):
     
-    def __init__(self, graph = None):
+    #   Params:   
+    #   graph       Dict    | None        Pattern: {Name: Graph_Name, Vertices: [Array of Vertices], Edges[Array of Edges]}
+    #   directed    Boolean | None        Build Graph as Directed or Not            
+    #
+    #   Default Constructor. If graph is not None initialize the Graph from the structure passed as argument
+    #
+    def __init__(self, graph = None, directed = False):
         
         super().__init__(graph)
         
@@ -34,9 +48,14 @@ class AdjacencyMatrixGraph(Graph):
         for vertice in self.getVertices():
             for neighborhoodVertice in self.getVerticeNeighborhood(vertice):
                 symbolic_edge = self.getSymbolicEdge(vertice, neighborhoodVertice)
-                inversed_symbolic_edge = self.getSymbolicEdge(neighborhoodVertice, vertice)
-                if symbolic_edge not in edges and inversed_symbolic_edge not in edges:
-                   edges[symbolic_edge] = [vertice, neighborhoodVertice]
+                
+                if (self.directed == False):
+                    inversed_symbolic_edge = self.getSymbolicEdge(neighborhoodVertice, vertice)
+                    if symbolic_edge not in edges and inversed_symbolic_edge not in edges:
+                        edges[symbolic_edge] = [vertice, neighborhoodVertice]
+                else:
+                    if symbolic_edge not in edges:
+                        edges[symbolic_edge] = [vertice, neighborhoodVertice]
 
         return edges
     

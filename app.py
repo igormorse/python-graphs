@@ -144,26 +144,63 @@ print("\n\n")
 
 exit()
 
-begin = time.time()
-print("\nÉ Conexo: " + str(graph.isConnected()))
-end = time.time()
 
+print("\n\nArestas (getEdges()) ")
+begin = time.time()
+graph.getEdges()
+end = time.time()
 print("Tempo: ", end - begin )
 
-#print("\nArestas: " + str(graph.getEdges()))
-#
-#print("\nÉ Conexo: " + str(graph.isConnected()))
-#
-#print("\nPossui Ciclo: " + str(graph.hasCicle()))
-#
-#print("\nPossui Floresta: " + str(graph.hasForest()))
-#
-#print("\nÉ Arvore: " + str(graph.isTree()))
-#
-#print("\nFloresta Geradora: \n\n")
-#
-#print(graph.getForestGeneratorGraph().show())
-#
-## print("\nÉ Arvore Fast: " + str(graph2.isTreeFast()))
+print("\n\nÉ Conexo (isConnected()) ")
+begin = time.time()
+graph.isConnected()
+end = time.time()
+print("Tempo: ", end - begin )
 
+print("\n\nPossui Ciclo: (hasCicle()) ")
+begin = time.time()
+graph.hasCicle()
+end = time.time()
+print("Tempo: ", end - begin )
 
+print("\n\nPossui Floresta (hasForest) ")
+begin = time.time()
+graph.isConnected()
+end = time.time()
+print("Tempo: ", end - begin )
+
+print("\n\nÉ Arvore (isTree) ")
+begin = time.time()
+graph.isTree()
+end = time.time()
+print("Tempo: ", end - begin )
+
+print("\n\nBrusca profundidade (depthSearch) ")
+begin = time.time()
+graph.depthSearch(random.choice(graph.getVertices()))
+end = time.time()
+print("Tempo: ", end - begin )
+
+print("\n\nBrusca profundidade Recursivo (depthSearch) ")
+begin = time.time()
+graph.depthSearch(random.choice(graph.getVertices()),True)
+end = time.time()
+print("Tempo: ", end - begin )
+
+print("\n\nBusca Largura (breadthStartSearch) ")
+begin = time.time()
+graph.breadthStartSearch(random.choice(graph.getVertices()))
+end = time.time()
+print("Tempo: ", end - begin )
+
+print("\n\nBusca Largura - Com vertice terminal (breadthStartToEndSearch) ")
+begin = time.time()
+graph.breadthStartToEndSearch(random.choice(graph.getVertices(),random.choice(graph.getVertices())
+end = time.time()
+print("Tempo: ", end - begin )
+
+print("\n\nFluxo Maximo (getMaxFlow) ")
+begin = time.time()
+graph.getMaxFlow(random.choice(graph.getVertices(),random.choice(graph.getVertices())
+end = time.time()
+print("Tempo: ", end - begin )
