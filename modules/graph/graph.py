@@ -465,6 +465,8 @@ class Graph:
         newGraph = self.getGraphInstance(directed = self.directed)
         
         newGraph.createVertices(self.getVertices())
+
+        self.fullSearch()
         
         for edge in list(self.getEdges().values()):
             symbolic_edge = self.getSymbolicEdge(edge[0], edge[1])
