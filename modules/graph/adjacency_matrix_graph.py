@@ -219,7 +219,7 @@ class AdjacencyMatrixGraph(Graph):
             
         raise Exception('Vertice: {0} is not in Graph!'.format(vertice))
     
-    def getGraphInstance(self, deep_copy = False, directed = false):
+    def getGraphInstance(self, deep_copy = False, directed = False):
         """Get Self Graph Instance as a Copy or New One
 
            **Method Overriden by Child Class**
