@@ -41,16 +41,18 @@ class AdjacencyListGraph(Graph):
         return edges
     
     def createEdge(self, edge):
-        if (self.edgeExists(edge) == False):
-            self.list_graph[edge[0]].append(edge[1])
-            
-            if (self.directed == False):
-                self.list_graph[edge[1]].append(edge[0])
-            
-            self.initializeEdge(edge)
-            
-            return
-        raise Exception('Edge: {0} - {1} is already in Graph!'.format(edge[0],edge[1]))
+        if (self.verticeExists(edge[0]) and self.verticeExists(edge[1])):
+            if (self.edgeExists(edge) == False):
+                self.list_graph[edge[0]].append(edge[1])
+                
+                if (self.directed == False):
+                    self.list_graph[edge[1]].append(edge[0])
+                
+                self.initializeEdge(edge)
+                
+                return
+            raise Exception('Edge: {0} - {1} is already in Graph!'.format(edge[0],edge[1]))
+        raise Exception('Some Vertice: {0} - {1} are not in Graph!'.format(edge[0], edge[1]))
         
     def edgeExists(self, edge):
         if (self.verticeExists(edge[0]) and self.verticeExists(edge[1])):

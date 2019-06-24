@@ -1,0 +1,62 @@
+Show Lista adjacente:
+
+{1: [3], 2: [3], 3: [2, 1], 4: []}
+
+
+
+
+
+Criar Vertice (createVertice()) 
+Tempo:  0.002146
+
+
+Buscar Vertice (search()) 
+Tempo:  0.050306
+
+
+Criar Arestas (createEdge()) 
+Tempo:  0.010252
+
+
+Obter Arestas (getEdges()) 
+Tempo:  0.014305
+
+
+Remover Arestas (removeEdge()) 
+Tempo:  0.003099
+
+
+Remover Vertice (removeVertice()) 
+Tempo:  0.002623
+
+
+É Conexo (isConnected()) 
+Tempo:  0.007629
+
+
+Possui Ciclo: (hasCicle()) 
+Tempo:  0.019312
+
+
+Possui Floresta (hasForest()) 
+Tempo:  0.047445
+
+
+Floresta Geradora (getForestGeneratorGraph()) 
+Tempo:  0.022888
+
+
+É Arvore (isTree()) 
+Tempo:  0.006914
+
+
+Busca profundidade (depthSearch()) 
+Tempo:  0.004292
+
+
+Busca profundidade Recursivo (depthSearch()) 
+Tempo:  0.001431
+
+
+Busca Largura (breadthStartSearch()) 
+Tempo:  0.011444

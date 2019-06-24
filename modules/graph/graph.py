@@ -223,8 +223,9 @@ class Graph:
                     return False
             
             for edge in list(self.getEdges().values()):
-                if(self.discovered[edge] == False):
-                    return False;
+                symbolic_edge = self.getSymbolicEdge(edge[0], edge[1])
+                if(self.discovered[symbolic_edge] == False):
+                    return False
         else:
             return self.isConnected() and not self.hasCicle()
 
@@ -232,11 +233,9 @@ class Graph:
     
     def getForestGeneratorGraph(self):
         
-        newGraph = self.getGraphInstance()
+        newGraph = self.getGraphInstance(directed = self.directed)
         
         newGraph.createVertices(self.getVertices())
-        
-        self.fullSearch()
         
         for edge in list(self.getEdges().values()):
             symbolic_edge = self.getSymbolicEdge(edge[0], edge[1])
@@ -248,7 +247,7 @@ class Graph:
     
     def depthSearch(self, vertice, recursive = False):
         
-        self.visited[vertice] = True;
+        self.visited[vertice] = True
         
         if(recursive):
             for neighborhoodVertice in self.getVerticeNeighborhood(vertice):
@@ -273,10 +272,10 @@ class Graph:
                    
                     if(self.visited[nextNeighborhoodVertice]):
                         if(not self.explored[self.getSymbolicEdge(vertice, nextNeighborhoodVertice)]):
-                            self.exploreEdge(vertice, neighborhoodVertice)
+                            self.exploreEdge(vertice, nextNeighborhoodVertice)
                     else:
-                        self.exploreEdge(vertice, neighborhoodVertice)
-                        self.discoverEdge(vertice, neighborhoodVertice)
+                        self.exploreEdge(vertice, nextNeighborhoodVertice)
+                        self.discoverEdge(vertice, nextNeighborhoodVertice)
                         self.visited[nextNeighborhoodVertice] = True
                         stack.append([nextNeighborhoodVertice, self.getVerticeNeighborhoodAfter(nextNeighborhoodVertice)])
                     
@@ -299,7 +298,7 @@ class Graph:
 
     def breadthStartSearch(self, start_vertice):
         
-        self.visited[start_vertice] = True;
+        self.visited[start_vertice] = True
         queue = deque([])
         queue.append(start_vertice)
 
@@ -316,7 +315,7 @@ class Graph:
                     queue.append(neighborhoodVertice)
                     
     def breadthStartToEndSearch(self, start_vertice, end_vertice):
-        self.visited[start_vertice] = True;
+        self.visited[start_vertice] = True
         queue = deque([])
         queue.append(start_vertice)
         
@@ -449,9 +448,10 @@ class Graph:
             
         residual_digraph = self.getResidualGraph(source, sink)
         
-        self.show()
-        
-        residual_possible_paths = residual_digraph.breadthStartToEndSearch(source, sink).getGraphPaths(source, sink)
+        try:
+            residual_possible_paths = residual_digraph.breadthStartToEndSearch(source, sink).getGraphPaths(source, sink)
+        except AttributeError:  
+            return 0
         
         # residual_possible_paths = residual_digraph.getGraphPaths(source, sink)
         

@@ -31,7 +31,8 @@ class AdjacencyMatrixGraph(Graph):
         for edge in super().getEdges():
             self.createEdge(edge)
   
-        
+    #
+    #
     def show(self):
         print(self.matrix_graph)
             
@@ -62,7 +63,9 @@ class AdjacencyMatrixGraph(Graph):
     def createEdge(self, edge):
         if (self.edgeExists(edge) == False and self.verticeExists(edge[0]) and self.verticeExists(edge[1])):
             self.matrix_graph[edge[0]][edge[1]] = 1
-            self.matrix_graph[edge[1]][edge[0]] = 1
+            
+            if (self.directed == False):
+                self.matrix_graph[edge[1]][edge[0]] = 1
             
             self.initializeEdge(edge)
             
@@ -72,7 +75,9 @@ class AdjacencyMatrixGraph(Graph):
     def removeEdge(self, edge):
         if (self.edgeExists(edge) == True):
             self.matrix_graph[edge[0]][edge[1]] = 0
-            self.matrix_graph[edge[1]][edge[0]] = 0
+            
+            if (self.directed == False):
+                self.matrix_graph[edge[1]][edge[0]] = 0
             return
         raise Exception('Edge: {0} - {1} is not in Graph!'.format(edge[0],edge[1]))
         
@@ -131,9 +136,9 @@ class AdjacencyMatrixGraph(Graph):
         raise Exception('Vertice: {0} is not in Graph!'.format(vertice))
     
         
-    def getGraphInstance(self, copy = False):
-        if not copy:
-            return AdjacencyMatrixGraph()
+    def getGraphInstance(self, deep_copy = False, directed = False):
+        if not deep_copy:
+            return AdjacencyMatrixGraph(directed = directed)
         else:
             return AdjacencyMatrixGraph(self.graph)
     

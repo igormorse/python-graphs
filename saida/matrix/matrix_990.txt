@@ -1,0 +1,61 @@
+Show Lista adjacente:
+
+
+
+
+
+
+Criar Vertice (createVertice()) 
+Tempo:  0.006914
+
+
+Buscar Vertice (search()) 
+Tempo:  1824.225903
+
+
+Criar Arestas (createEdge()) 
+Tempo:  0.110149
+
+
+Obter Arestas (getEdges()) 
+Tempo:  1508.435726
+
+
+Remover Arestas (removeEdge()) 
+Tempo:  0.086546
+
+
+Remover Vertice (removeVertice()) 
+Tempo:  12.811422
+
+
+É Conexo (isConnected()) 
+Tempo:  2180.545568
+
+
+Possui Ciclo: (hasCicle()) 
+Tempo:  7543.743372
+
+
+Possui Floresta (hasForest()) 
+Tempo:  7480.211496
+
+
+Floresta Geradora (getForestGeneratorGraph()) 
+Tempo:  1868.617058
+
+
+É Arvore (isTree()) 
+Tempo:  2062.297583
+
+
+Busca profundidade (depthSearch()) 
+Tempo:  5166.270018
+
+
+Busca profundidade Recursivo (depthSearch()) 
+Tempo:  1433.986664
+
+
+Busca Largura (breadthStartSearch()) 
+Tempo:  1461.334705

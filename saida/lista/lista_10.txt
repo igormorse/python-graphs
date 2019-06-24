@@ -1,0 +1,62 @@
+Show Lista adjacente:
+
+{1: [9, 8, 7, 2, 3, 5], 2: [1, 3, 4, 7, 9], 3: [2, 7, 1, 9, 8, 4], 4: [2, 3, 8, 7], 5: [8, 1], 6: [], 7: [1, 3, 8, 4, 2], 8: [1, 3, 4, 5, 7, 9], 9: [1, 3, 8, 2]}
+
+
+
+
+
+Criar Vertice (createVertice()) 
+Tempo:  0.001907
+
+
+Buscar Vertice (search()) 
+Tempo:  0.098467
+
+
+Criar Arestas (createEdge()) 
+Tempo:  0.009537
+
+
+Obter Arestas (getEdges()) 
+Tempo:  0.067234
+
+
+Remover Arestas (removeEdge()) 
+Tempo:  0.003338
+
+
+Remover Vertice (removeVertice()) 
+Tempo:  0.003815
+
+
+É Conexo (isConnected()) 
+Tempo:  0.073195
+
+
+Possui Ciclo: (hasCicle()) 
+Tempo:  0.258923
+
+
+Possui Floresta (hasForest()) 
+Tempo:  0.247478
+
+
+Floresta Geradora (getForestGeneratorGraph()) 
+Tempo:  0.088453
+
+
+É Arvore (isTree()) 
+Tempo:  0.073195
+
+
+Busca profundidade (depthSearch()) 
+Tempo:  0.112534
+
+
+Busca profundidade Recursivo (depthSearch()) 
+Tempo:  0.060558
+
+
+Busca Largura (breadthStartSearch()) 
+Tempo:  0.070095
