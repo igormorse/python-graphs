@@ -855,13 +855,14 @@ class Graph:
         """
         raise Exception('getVerticeNeighborhood(vertice) Not Implemented! You need to Implement this method in your class!')
         
-    def getGraphInstance(self, deep_copy = False):
+    def getGraphInstance(self, deep_copy = False, directed = False):
         """Get Self Graph Instance as a Copy or New One
 
            **Method Overriden by Child Class**
         
         Keyword Arguments:
             deep_copy {bool}    -- Generate a new copy of itself or a new one (default: {False})
+            directed {bool}     -- If New Graph should be Directed or Not (default: {False})
         
         Raises:
             Exception: Method not Implemented
