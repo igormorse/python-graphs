@@ -2,7 +2,10 @@ import json
 import random
 import sys
 
-
+"""
+    Generates Randomly Graphs with a Random amount of Vertices and Random Amount of Edges and Relationships
+    Save Result Graph file into Json File
+"""
 if (len(sys.argv) == 1):
     print("\n\nUsage: python generate_graph_file.py {OUTPUT_GRAPH_SIZE} \n\nExample: python generate_graph_file.py 500 - Generates Graph with 500 Vertices and random relationships between them.\n\n")
     exit()
