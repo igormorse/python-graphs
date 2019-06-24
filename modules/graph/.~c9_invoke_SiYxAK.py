@@ -398,7 +398,7 @@ class Graph:
                 if (visited[neighborhoodVertice] == False): 
                     self.getAllGraphPaths(neighborhoodVertice, destination_vertice, visited, paths, graphs_paths) 
                       
-        # Remove current vertex from path[] and mark it as unvisited 
+
         paths.pop()
         
         visited[origin_vertice] = False

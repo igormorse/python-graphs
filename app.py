@@ -21,7 +21,7 @@ graph.createVertice('c')
 graph.createEdge(['a','b'])
 
 # Connect Graph
-graph.createEdge(['b','c'])
+# graph.createEdge(['b','c'])
 
 # Add Cicle to Graph
 graph.createEdge(['c', 'a'])
@@ -100,7 +100,19 @@ graph.createCapacity([7,8], 10)
 print("\n\nGraph: ")
 # graph.show()
 
-print("\n\nMax Flow: " + str(graph.getMaxFlow(1, 8)))
+for i in range(1):
+    
+    max_flow = graph.getMaxFlow(1, 8)
+    
+    print(graph.flow)
+    print("\n\nMax Flow: " + str(max_flow))
+    
+    if (max_flow == 28):
+        print("\n\nMax Flow: " + str(max_flow))
+        
+    graph.resetState()
+    
+    print(graph.flow)
 
 exit()
 
