@@ -20,6 +20,7 @@ A JSON file will be created at folder Data with the generated Graph.
 
 `See app.py example to get know with the libraries`
 
+`Execute app.py to see the code sample running. python app.py`
 
 ### MatrixAdjacencyGraph.py
 
@@ -28,3 +29,7 @@ A JSON file will be created at folder Data with the generated Graph.
 ### ListAdjacencyGraph.py
 
 `Contains methods for reading the parsed JSON of File or Creating from scratch into a List Adjacency Graph Representation`
+
+# Documentation
+
+`Code is fully documented. Pull Requests only will be accepted if kept this way.`

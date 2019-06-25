@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.6.2" />
+<title>python-graphs.app API documentation</title>
+<meta name="description" content="" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase;cursor:pointer}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>python-graphs.app</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">import json
+import time
+import random  
+
+from modules.graph.adjacency_matrix_graph import AdjacencyMatrixGraph
+
+from modules.graph.adjacency_list_graph import AdjacencyListGraph
+
+def timeFormat(begin,end):
+    return round((end - begin) * 1000, 6)
+
+graph = None
+
+# Read Generated Json Graph File.
+with open(&#39;./data/graph.json&#39;, encoding=&#39;utf-8&#39;) as json_file:
+    graphFile = json.load(json_file)
+
+
+# Executa o Algorítmo do Fluxo Máximo
+MAX_FLOW_EXAMPLE = False
+
+# True - Utiliza Lista de Adjacência | Falso - Utiliza Matriz de Adjacência
+USE_ADJACENCY_LIST_GRAPH = True
+
+# ------------ Fluxo Maximo - Adjacency List Graph ------------------ 
+if(MAX_FLOW_EXAMPLE == True):
+    graph = AdjacencyListGraph(None, True)
+    
+    for i in range(1,9):
+        graph.createVertice(i)
+        
+    graph.createEdge([1,2])
+    graph.createCapacity([1,2], 10)
+    
+    
+    graph.createEdge([1,3])
+    graph.createCapacity([1,3], 5)
+    graph.createEdge([1,4])
+    graph.createCapacity([1,4], 15)
+    
+    graph.createEdge([2,3])
+    graph.createCapacity([2,3], 4)
+    
+    graph.createEdge([2,5])
+    graph.createCapacity([2,5], 9)
+    
+    graph.createEdge([2,6])
+    graph.createCapacity([2,6], 15)
+    
+    graph.createEdge([3,4])
+    graph.createCapacity([3,4], 4)
+    
+    graph.createEdge([3,6])
+    graph.createCapacity([3,6], 8)
+    
+    graph.createEdge([4,7])
+    graph.createCapacity([4,7], 30)
+    
+    graph.createEdge([5,6])
+    graph.createCapacity([5,6], 15)
+    
+    graph.createEdge([5,8])
+    graph.createCapacity([5,8], 10)
+    
+    graph.createEdge([6,7])
+    graph.createCapacity([6,7], 15)
+    
+    graph.createEdge([6,8])
+    graph.createCapacity([6,8], 10)
+    
+    graph.createEdge([7,3])
+    graph.createCapacity([7,3], 6)
+    
+    graph.createEdge([7,8])
+    graph.createCapacity([7,8], 10)
+    
+    print(&#34;\n\nGraph: &#34;)
+    graph.show()
+    for i in range(1):
+        begin = time.time()
+        max_flow = graph.getMaxFlow(1, 8)
+        end = time.time()
+        print(&#34;Tempo: &#34;, timeFormat(begin,end) )
+        print(&#34;Max (1,8): &#34; , max_flow)
+        print(&#34;\n\nMax FLow (getMaxFlow()) &#34;)
+        
+        graph.resetState()
+        #print(graph.flow)
+    exit()
+
+
+# ---------- Grafo Lista Adjacente -----
+if(USE_ADJACENCY_LIST_GRAPH == True):
+    graph = AdjacencyListGraph(graphFile)    
+else:
+    graph = AdjacencyMatrixGraph(graphFile)    
+
+print(&#34;Grafo :\n&#34;)
+graph.show()
+
+print(&#34;\n\n&#34;)
+
+print(&#34;\n\nCriar Vertice (createVertice()) &#34;)
+begin = time.time()
+graph.createVertice(&#39;asda&#39;)
+end = time.time()
+print(&#34;Tempo: &#34;, timeFormat(begin,end) )
+
+randomVerticeSearch = random.choice(graph.getVertices())
+print(&#34;\n\nBuscar Vertice (search()) &#34;)
+begin = time.time()
+graph.search(randomVerticeSearch)
+end = time.time()
+print(&#34;Tempo: &#34;, timeFormat(begin,end) )
+
+randomVerticeadd = random.choice(graph.getVertices())
+randomVerticeadd2 = &#39;asda&#39;
+print(&#34;\n\nCriar Arestas (createEdge()) &#34;)
+begin = time.time()
+graph.createEdge([randomVerticeadd,randomVerticeadd2])
+end = time.time()
+print(&#34;Tempo: &#34;, timeFormat(begin,end) )
+
+print(&#34;\n\nObter Arestas (getEdges()) &#34;)
+begin = time.time()
+result = graph.getEdges()
+end = time.time()
+print(&#34;Tempo: &#34;, timeFormat(begin,end) )
+print(&#34;Obter Arestas &#34;, result)
+
+
+print(&#34;\n\nRemover Arestas (removeEdge()) &#34;)
+begin = time.time()
+graph.removeEdge([randomVerticeadd,randomVerticeadd2])
+end = time.time()
+print(&#34;Tempo: &#34;, timeFormat(begin,end) )
+
+graph.resetState()
+randomVerticeRemove = random.choice(graph.getVertices())
+print(&#34;\n\nRemover Vertice (removeVertice()) &#34;)
+begin = time.time()
+graph.removeVertice(randomVerticeRemove)
+end = time.time()
+print(&#34;Tempo: &#34;, timeFormat(begin,end) )
+
+graph.resetState()
+print(&#34;\n\nÉ Conexo (isConnected()) &#34;)
+begin = time.time()
+result = graph.isConnected()
+end = time.time()
+print(&#34;Tempo: &#34;, timeFormat(begin,end) )
+print(&#34;É Conexo &#34;, result)
+
+graph.resetState()
+print(&#34;\n\nPossui Ciclo: (hasCicle()) &#34;)
+begin = time.time()
+result = graph.hasCicle()
+end = time.time()
+print(&#34;Tempo: &#34;, timeFormat(begin,end) )
+print(&#34;Possui Ciclo &#34;, result)
+
+graph.resetState()
+print(&#34;\n\nPossui Floresta (hasForest()) &#34;)
+begin = time.time()
+result = graph.hasForest()
+end = time.time()
+print(&#34;Tempo: &#34;, timeFormat(begin,end) )
+print(&#34;Possui Floresta &#34;, result)
+
+graph.resetState()
+print(&#34;\n\nFloresta Geradora (getForestGeneratorGraph()) &#34;)
+begin = time.time()
+result = graph.getForestGeneratorGraph()
+end = time.time()
+print(&#34;Tempo: &#34;, timeFormat(begin,end) )
+print(&#34;Floresta Geradora &#34;, result.show())
+
+graph.resetState()
+print(&#34;\n\nÉ Arvore (isTree()) &#34;)
+begin = time.time()
+result = graph.isTree()
+end = time.time()
+print(&#34;Tempo: &#34;, timeFormat(begin,end) )
+print(&#34;É Arvore&#34; ,result)
+
+graph.resetState()
+randomVerticeSearch = random.choice(graph.getVertices())
+print(&#34;\n\nBusca profundidade (depthSearch()) &#34;)
+begin = time.time()
+graph.depthSearch(randomVerticeSearch)
+end = time.time()
+print(&#34;Tempo: &#34;, timeFormat(begin,end) )
+
+
+graph.resetState()
+randomVerticeSearch = random.choice(graph.getVertices())
+print(&#34;\n\nBusca profundidade Recursivo (depthSearch()) &#34;)
+begin = time.time()
+graph.depthSearch(randomVerticeSearch, True)
+end = time.time()
+print(&#34;Tempo: &#34;, timeFormat(begin,end) )
+
+graph.resetState()
+randomVerticeSearch = random.choice(graph.getVertices())
+print(&#34;\n\nBusca Largura (breadthStartSearch()) &#34;)
+begin = time.time()
+graph.breadthStartSearch(randomVerticeSearch)
+end = time.time()
+print(&#34;Tempo: &#34;, timeFormat(begin,end) )</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="python-graphs.app.timeFormat"><code class="name flex">
+<span>def <span class="ident">timeFormat</span></span>(<span>begin, end)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def timeFormat(begin,end):
+    return round((end - begin) * 1000, 6)</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="python-graphs" href="index.html">python-graphs</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="python-graphs.app.timeFormat" href="#python-graphs.app.timeFormat">timeFormat</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.6.2</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

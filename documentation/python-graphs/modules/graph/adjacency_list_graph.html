@@ -1,0 +1,888 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.6.2" />
+<title>python-graphs.modules.graph.adjacency_list_graph API documentation</title>
+<meta name="description" content="" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase;cursor:pointer}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>python-graphs.modules.graph.adjacency_list_graph</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">from modules.graph.graph import Graph
+import copy
+
+import random        
+class AdjacencyListGraph(Graph):
+    &#34;&#34;&#34;
+    Implements Adjacency List Graph Data Representation
+    This class itself doesn&#39;t contain complex methods but only its data representation, that is a List
+
+    Parent: Graph
+
+    Returns:
+        AdjacencyListGraph    -- Adjacency List Graph Data Representation
+    &#34;&#34;&#34;
+    
+    def __init__(self, graph = None, directed = False):
+        &#34;&#34;&#34;Default Constructor
+        
+        Keyword Arguments:
+            graph {Dictionary}  -- Data Structure to Initialize the Graph with. Example: {Name: Graph_Name, Vertices: [Array of Vertices], Edges[Array of Edges]} (default: {None})
+            directed {bool}     -- Graph is directed (oriented) or Not. (default: {False})
+        &#34;&#34;&#34;
+        
+        super().__init__(graph, directed)
+        
+        &#34;&#34;&#34;List Graph Representation
+        &#34;&#34;&#34;
+        self.list_graph = {}
+        
+        for vertice in super().getVertices():
+            #self.list_graph[vertice] = []
+            self.createVertice(vertice)
+            
+        for edge in super().getEdges():
+            self.createEdge(edge)
+            
+    def show(self):
+        &#34;&#34;&#34; Print Current Graph into Console.
+        &#34;&#34;&#34;
+        print(self.list_graph)
+    
+    def getGraph(self):
+        &#34;&#34;&#34;Return Original Graph Data Structure ( This method is not public as it is overriden by child classes )
+
+        **Overriden Method by Child**
+        
+        Returns:
+            Dictionary -- Return initial Graph Data Structure
+        &#34;&#34;&#34;
+        return self.list_graph
+        
+    def getEdges(self):
+        &#34;&#34;&#34;Get Graph&#39;s Edges List
+
+        **Overriden Method by Child**
+        
+        Returns:
+            [List]      -- Edges List
+        &#34;&#34;&#34;
+        
+        edges = {}
+        
+        for vertice in self.getVertices():
+            for neighborhoodVertice in self.getVerticeNeighborhood(vertice):
+                symbolic_edge = self.getSymbolicEdge(vertice, neighborhoodVertice)
+                
+                if (self.directed == False):
+                    inversed_symbolic_edge = self.getSymbolicEdge(neighborhoodVertice, vertice)
+                    if symbolic_edge not in edges and inversed_symbolic_edge not in edges:
+                        edges[symbolic_edge] = [vertice, neighborhoodVertice]
+                else:
+                    if symbolic_edge not in edges:
+                        edges[symbolic_edge] = [vertice, neighborhoodVertice]
+        return edges
+    
+    def createEdge(self, edge):
+        &#34;&#34;&#34;Create Vertice in Graph
+
+        **Overriden Method by Child**
+        
+        Arguments:
+            vertice {String|Integer}    -- Vertice Key Name. Example: Vertice &#39;a&#39; or Vertice 2. Name doesn&#39;t matter as long it is a primitive.
+        
+        Raises:
+            Exception: Vertice Already Exists in Graph
+        &#34;&#34;&#34;
+        if (self.verticeExists(edge[0]) and self.verticeExists(edge[1])):
+            if (self.edgeExists(edge) == False):
+                self.list_graph[edge[0]].append(edge[1])
+                
+                if (self.directed == False):
+                    self.list_graph[edge[1]].append(edge[0])
+                
+                self.initializeEdge(edge)
+                
+                return
+            raise Exception(&#39;Edge: {0} - {1} is already in Graph!&#39;.format(edge[0],edge[1]))
+        raise Exception(&#39;Some Vertice: {0} - {1} are not in Graph!&#39;.format(edge[0], edge[1]))
+        
+    def edgeExists(self, edge):
+        &#34;&#34;&#34;Check if Edges Exists
+
+        **Overriden Method by Child**
+        
+        Arguments:
+            edge {List}       -- Edges as List. Example: [vertice1, vertice2]
+        
+        Returns:
+            Boolean           -- Either Edge Exists or Not.
+        &#34;&#34;&#34;
+        if (self.verticeExists(edge[0]) and self.verticeExists(edge[1])):
+            return edge[1] in self.list_graph[edge[0]]
+            
+        return False
+        
+    def removeEdge(self, edge):
+        &#34;&#34;&#34;Remove Edge from Graph
+
+        **Overriden Method by Child**
+        
+        Arguments:
+            edge {List}         -- Edges as List. Example: [vertice1, vertice2]
+        
+        Raises:
+            Exception: Edge doesn&#39;t Exists in Graph
+        &#34;&#34;&#34;
+        if (self.edgeExists(edge) == True):
+            self.list_graph[edge[0]].remove(edge[1])
+            
+            if (self.directed == False):
+                self.list_graph[edge[1]].remove(edge[0])
+                
+            return
+        
+        raise Exception(&#39;Edge: {0} - {1} is not in Graph!&#39;.format(edge[0],edge[1]))
+        
+    def getVertices(self):
+        &#34;&#34;&#34; Get Graph&#39;s Vertices List
+
+        **Overriden Method by Child**
+        
+        Returns:
+            [List]     -- Vertices List
+        &#34;&#34;&#34;
+        return list(self.list_graph.keys())
+        
+    def verticeExists(self, vertice):
+        &#34;&#34;&#34;Check if Vertice Exists
+
+        **Overriden Method by Child**
+        
+        Arguments:
+            vertice {String|Integer}  -- Vertice Key Name. Example: Vertice &#39;a&#39; or Vertice 2. Name doesn&#39;t matter as long it is a primitive.
+        
+        Returns:
+            [Boolean]         -- Condition to check if vertice exists
+        &#34;&#34;&#34;
+        return vertice in self.list_graph
+        
+    def createVertice(self, vertice):
+        &#34;&#34;&#34;Create Many Vertices in Graph
+        
+        Arguments:
+            vertices {List}         -- List of Vertices to be created.
+        &#34;&#34;&#34;
+        if (self.verticeExists(vertice) == False):
+            self.list_graph[vertice] = []
+            
+            self.initializeVertice(vertice)
+            return
+        raise Exception(&#39;Vertice: {0} is already in Graph!&#39;.format(vertice))
+    
+    def removeVertice(self, vertice):
+        &#34;&#34;&#34;Remove Vertice from Graph
+        
+        Arguments:
+            vertice {String|Integer}    -- Vertice Key Name. Example: Vertice &#39;a&#39; or Vertice 2. Name doesn&#39;t matter as long it is a primitive.
+        
+        Raises:
+            Exception: Vertice not in Graph!
+        &#34;&#34;&#34;
+        if (self.verticeExists(vertice)):
+            for neighborhood in self.getVerticeNeighborhood(vertice):
+                self.list_graph[neighborhood].remove(vertice)
+                
+            del self.list_graph[vertice]
+            return
+        raise Exception(&#39;Vertice: {0} is not in Graph!&#39;.format(vertice))
+    
+    def getVerticeNeighborhood(self, vertice):
+        &#34;&#34;&#34;Get All Vertices in a Vertice(V1) Neighborhood
+           Example: v1 has [v2,v3,v4] as adjacency vertices, this methods returns those vertices
+        
+        Arguments:
+            vertice {String|Vertice}    -- Vertice Key Name. Example: Vertice &#39;a&#39; or Vertice 2. Name doesn&#39;t matter as long it is a primitive.
+        
+        Raises:
+            Exception: Vertice not in Graph!
+        &#34;&#34;&#34;
+        if (self.verticeExists(vertice)):
+            return self.list_graph[vertice]
+        raise Exception(&#39;Vertice: {0} is not in Graph!&#39;.format(vertice))
+
+    def getGraphInstance(self, deep_copy = False, directed = False):
+        &#34;&#34;&#34;Get Self Graph Instance as a Copy or New One
+
+           **Method Overriden by Child Class**
+        
+        Keyword Arguments:
+            deep_copy {bool}    -- Generate a new copy of itself or a new one (default: {False})
+        
+        &#34;&#34;&#34;
+        if not deep_copy:
+            return AdjacencyListGraph(directed = directed)
+        else:
+            return copy.deepcopy(self)
+    </code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="python-graphs.modules.graph.adjacency_list_graph.AdjacencyListGraph"><code class="flex name class">
+<span>class <span class="ident">AdjacencyListGraph</span></span>
+<span>(</span><span>graph=None, directed=False)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Implements Adjacency List Graph Data Representation
+This class itself doesn't contain complex methods but only its data representation, that is a List</p>
+<p>Parent: Graph</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><a title="python-graphs.modules.graph.adjacency_list_graph.AdjacencyListGraph" href="#python-graphs.modules.graph.adjacency_list_graph.AdjacencyListGraph"><code>AdjacencyListGraph</code></a>
+&ndash; <code>Adjacency</code> <code>List</code> <code>Graph</code> <code>Data</code> <code>Representation</code></dt>
+<dd>&nbsp;</dd>
+<dt><code>Default</code> <code>Constructor</code></dt>
+<dd>&nbsp;</dd>
+<dt><code>Keyword</code> <code>Arguments</code>:</dt>
+<dd>graph {Dictionary}
+&ndash; Data Structure to Initialize the Graph with. Example: {Name: Graph_Name, Vertices: [Array of Vertices], Edges[Array of Edges]} (default: {None})
+directed {bool}
+&ndash; Graph is directed (oriented) or Not. (default: {False})</dd>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class AdjacencyListGraph(Graph):
+    &#34;&#34;&#34;
+    Implements Adjacency List Graph Data Representation
+    This class itself doesn&#39;t contain complex methods but only its data representation, that is a List
+
+    Parent: Graph
+
+    Returns:
+        AdjacencyListGraph    -- Adjacency List Graph Data Representation
+    &#34;&#34;&#34;
+    
+    def __init__(self, graph = None, directed = False):
+        &#34;&#34;&#34;Default Constructor
+        
+        Keyword Arguments:
+            graph {Dictionary}  -- Data Structure to Initialize the Graph with. Example: {Name: Graph_Name, Vertices: [Array of Vertices], Edges[Array of Edges]} (default: {None})
+            directed {bool}     -- Graph is directed (oriented) or Not. (default: {False})
+        &#34;&#34;&#34;
+        
+        super().__init__(graph, directed)
+        
+        &#34;&#34;&#34;List Graph Representation
+        &#34;&#34;&#34;
+        self.list_graph = {}
+        
+        for vertice in super().getVertices():
+            #self.list_graph[vertice] = []
+            self.createVertice(vertice)
+            
+        for edge in super().getEdges():
+            self.createEdge(edge)
+            
+    def show(self):
+        &#34;&#34;&#34; Print Current Graph into Console.
+        &#34;&#34;&#34;
+        print(self.list_graph)
+    
+    def getGraph(self):
+        &#34;&#34;&#34;Return Original Graph Data Structure ( This method is not public as it is overriden by child classes )
+
+        **Overriden Method by Child**
+        
+        Returns:
+            Dictionary -- Return initial Graph Data Structure
+        &#34;&#34;&#34;
+        return self.list_graph
+        
+    def getEdges(self):
+        &#34;&#34;&#34;Get Graph&#39;s Edges List
+
+        **Overriden Method by Child**
+        
+        Returns:
+            [List]      -- Edges List
+        &#34;&#34;&#34;
+        
+        edges = {}
+        
+        for vertice in self.getVertices():
+            for neighborhoodVertice in self.getVerticeNeighborhood(vertice):
+                symbolic_edge = self.getSymbolicEdge(vertice, neighborhoodVertice)
+                
+                if (self.directed == False):
+                    inversed_symbolic_edge = self.getSymbolicEdge(neighborhoodVertice, vertice)
+                    if symbolic_edge not in edges and inversed_symbolic_edge not in edges:
+                        edges[symbolic_edge] = [vertice, neighborhoodVertice]
+                else:
+                    if symbolic_edge not in edges:
+                        edges[symbolic_edge] = [vertice, neighborhoodVertice]
+        return edges
+    
+    def createEdge(self, edge):
+        &#34;&#34;&#34;Create Vertice in Graph
+
+        **Overriden Method by Child**
+        
+        Arguments:
+            vertice {String|Integer}    -- Vertice Key Name. Example: Vertice &#39;a&#39; or Vertice 2. Name doesn&#39;t matter as long it is a primitive.
+        
+        Raises:
+            Exception: Vertice Already Exists in Graph
+        &#34;&#34;&#34;
+        if (self.verticeExists(edge[0]) and self.verticeExists(edge[1])):
+            if (self.edgeExists(edge) == False):
+                self.list_graph[edge[0]].append(edge[1])
+                
+                if (self.directed == False):
+                    self.list_graph[edge[1]].append(edge[0])
+                
+                self.initializeEdge(edge)
+                
+                return
+            raise Exception(&#39;Edge: {0} - {1} is already in Graph!&#39;.format(edge[0],edge[1]))
+        raise Exception(&#39;Some Vertice: {0} - {1} are not in Graph!&#39;.format(edge[0], edge[1]))
+        
+    def edgeExists(self, edge):
+        &#34;&#34;&#34;Check if Edges Exists
+
+        **Overriden Method by Child**
+        
+        Arguments:
+            edge {List}       -- Edges as List. Example: [vertice1, vertice2]
+        
+        Returns:
+            Boolean           -- Either Edge Exists or Not.
+        &#34;&#34;&#34;
+        if (self.verticeExists(edge[0]) and self.verticeExists(edge[1])):
+            return edge[1] in self.list_graph[edge[0]]
+            
+        return False
+        
+    def removeEdge(self, edge):
+        &#34;&#34;&#34;Remove Edge from Graph
+
+        **Overriden Method by Child**
+        
+        Arguments:
+            edge {List}         -- Edges as List. Example: [vertice1, vertice2]
+        
+        Raises:
+            Exception: Edge doesn&#39;t Exists in Graph
+        &#34;&#34;&#34;
+        if (self.edgeExists(edge) == True):
+            self.list_graph[edge[0]].remove(edge[1])
+            
+            if (self.directed == False):
+                self.list_graph[edge[1]].remove(edge[0])
+                
+            return
+        
+        raise Exception(&#39;Edge: {0} - {1} is not in Graph!&#39;.format(edge[0],edge[1]))
+        
+    def getVertices(self):
+        &#34;&#34;&#34; Get Graph&#39;s Vertices List
+
+        **Overriden Method by Child**
+        
+        Returns:
+            [List]     -- Vertices List
+        &#34;&#34;&#34;
+        return list(self.list_graph.keys())
+        
+    def verticeExists(self, vertice):
+        &#34;&#34;&#34;Check if Vertice Exists
+
+        **Overriden Method by Child**
+        
+        Arguments:
+            vertice {String|Integer}  -- Vertice Key Name. Example: Vertice &#39;a&#39; or Vertice 2. Name doesn&#39;t matter as long it is a primitive.
+        
+        Returns:
+            [Boolean]         -- Condition to check if vertice exists
+        &#34;&#34;&#34;
+        return vertice in self.list_graph
+        
+    def createVertice(self, vertice):
+        &#34;&#34;&#34;Create Many Vertices in Graph
+        
+        Arguments:
+            vertices {List}         -- List of Vertices to be created.
+        &#34;&#34;&#34;
+        if (self.verticeExists(vertice) == False):
+            self.list_graph[vertice] = []
+            
+            self.initializeVertice(vertice)
+            return
+        raise Exception(&#39;Vertice: {0} is already in Graph!&#39;.format(vertice))
+    
+    def removeVertice(self, vertice):
+        &#34;&#34;&#34;Remove Vertice from Graph
+        
+        Arguments:
+            vertice {String|Integer}    -- Vertice Key Name. Example: Vertice &#39;a&#39; or Vertice 2. Name doesn&#39;t matter as long it is a primitive.
+        
+        Raises:
+            Exception: Vertice not in Graph!
+        &#34;&#34;&#34;
+        if (self.verticeExists(vertice)):
+            for neighborhood in self.getVerticeNeighborhood(vertice):
+                self.list_graph[neighborhood].remove(vertice)
+                
+            del self.list_graph[vertice]
+            return
+        raise Exception(&#39;Vertice: {0} is not in Graph!&#39;.format(vertice))
+    
+    def getVerticeNeighborhood(self, vertice):
+        &#34;&#34;&#34;Get All Vertices in a Vertice(V1) Neighborhood
+           Example: v1 has [v2,v3,v4] as adjacency vertices, this methods returns those vertices
+        
+        Arguments:
+            vertice {String|Vertice}    -- Vertice Key Name. Example: Vertice &#39;a&#39; or Vertice 2. Name doesn&#39;t matter as long it is a primitive.
+        
+        Raises:
+            Exception: Vertice not in Graph!
+        &#34;&#34;&#34;
+        if (self.verticeExists(vertice)):
+            return self.list_graph[vertice]
+        raise Exception(&#39;Vertice: {0} is not in Graph!&#39;.format(vertice))
+
+    def getGraphInstance(self, deep_copy = False, directed = False):
+        &#34;&#34;&#34;Get Self Graph Instance as a Copy or New One
+
+           **Method Overriden by Child Class**
+        
+        Keyword Arguments:
+            deep_copy {bool}    -- Generate a new copy of itself or a new one (default: {False})
+        
+        &#34;&#34;&#34;
+        if not deep_copy:
+            return AdjacencyListGraph(directed = directed)
+        else:
+            return copy.deepcopy(self)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>modules.graph.graph.Graph</li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="python-graphs.modules.graph.adjacency_list_graph.AdjacencyListGraph.createEdge"><code class="name flex">
+<span>def <span class="ident">createEdge</span></span>(<span>self, edge)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Create Vertice in Graph</p>
+<p><strong>Overriden Method by Child</strong></p>
+<h2 id="arguments">Arguments</h2>
+<p>vertice {String|Integer}
+&ndash; Vertice Key Name. Example: Vertice 'a' or Vertice 2. Name doesn't matter as long it is a primitive.</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><strong><code>Exception</code></strong></dt>
+<dd>Vertice Already Exists in Graph</dd>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def createEdge(self, edge):
+    &#34;&#34;&#34;Create Vertice in Graph
+
+    **Overriden Method by Child**
+    
+    Arguments:
+        vertice {String|Integer}    -- Vertice Key Name. Example: Vertice &#39;a&#39; or Vertice 2. Name doesn&#39;t matter as long it is a primitive.
+    
+    Raises:
+        Exception: Vertice Already Exists in Graph
+    &#34;&#34;&#34;
+    if (self.verticeExists(edge[0]) and self.verticeExists(edge[1])):
+        if (self.edgeExists(edge) == False):
+            self.list_graph[edge[0]].append(edge[1])
+            
+            if (self.directed == False):
+                self.list_graph[edge[1]].append(edge[0])
+            
+            self.initializeEdge(edge)
+            
+            return
+        raise Exception(&#39;Edge: {0} - {1} is already in Graph!&#39;.format(edge[0],edge[1]))
+    raise Exception(&#39;Some Vertice: {0} - {1} are not in Graph!&#39;.format(edge[0], edge[1]))</code></pre>
+</details>
+</dd>
+<dt id="python-graphs.modules.graph.adjacency_list_graph.AdjacencyListGraph.createVertice"><code class="name flex">
+<span>def <span class="ident">createVertice</span></span>(<span>self, vertice)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Create Many Vertices in Graph</p>
+<h2 id="arguments">Arguments</h2>
+<p>vertices {List}
+&ndash; List of Vertices to be created.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def createVertice(self, vertice):
+    &#34;&#34;&#34;Create Many Vertices in Graph
+    
+    Arguments:
+        vertices {List}         -- List of Vertices to be created.
+    &#34;&#34;&#34;
+    if (self.verticeExists(vertice) == False):
+        self.list_graph[vertice] = []
+        
+        self.initializeVertice(vertice)
+        return
+    raise Exception(&#39;Vertice: {0} is already in Graph!&#39;.format(vertice))</code></pre>
+</details>
+</dd>
+<dt id="python-graphs.modules.graph.adjacency_list_graph.AdjacencyListGraph.edgeExists"><code class="name flex">
+<span>def <span class="ident">edgeExists</span></span>(<span>self, edge)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Check if Edges Exists</p>
+<p><strong>Overriden Method by Child</strong></p>
+<h2 id="arguments">Arguments</h2>
+<p>edge {List}
+&ndash; Edges as List. Example: [vertice1, vertice2]</p>
+<h2 id="returns">Returns</h2>
+<p>Boolean
+&ndash; Either Edge Exists or Not.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def edgeExists(self, edge):
+    &#34;&#34;&#34;Check if Edges Exists
+
+    **Overriden Method by Child**
+    
+    Arguments:
+        edge {List}       -- Edges as List. Example: [vertice1, vertice2]
+    
+    Returns:
+        Boolean           -- Either Edge Exists or Not.
+    &#34;&#34;&#34;
+    if (self.verticeExists(edge[0]) and self.verticeExists(edge[1])):
+        return edge[1] in self.list_graph[edge[0]]
+        
+    return False</code></pre>
+</details>
+</dd>
+<dt id="python-graphs.modules.graph.adjacency_list_graph.AdjacencyListGraph.getEdges"><code class="name flex">
+<span>def <span class="ident">getEdges</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Get Graph's Edges List</p>
+<p><strong>Overriden Method by Child</strong></p>
+<h2 id="returns">Returns</h2>
+<p>[List]
+&ndash; Edges List</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def getEdges(self):
+    &#34;&#34;&#34;Get Graph&#39;s Edges List
+
+    **Overriden Method by Child**
+    
+    Returns:
+        [List]      -- Edges List
+    &#34;&#34;&#34;
+    
+    edges = {}
+    
+    for vertice in self.getVertices():
+        for neighborhoodVertice in self.getVerticeNeighborhood(vertice):
+            symbolic_edge = self.getSymbolicEdge(vertice, neighborhoodVertice)
+            
+            if (self.directed == False):
+                inversed_symbolic_edge = self.getSymbolicEdge(neighborhoodVertice, vertice)
+                if symbolic_edge not in edges and inversed_symbolic_edge not in edges:
+                    edges[symbolic_edge] = [vertice, neighborhoodVertice]
+            else:
+                if symbolic_edge not in edges:
+                    edges[symbolic_edge] = [vertice, neighborhoodVertice]
+    return edges</code></pre>
+</details>
+</dd>
+<dt id="python-graphs.modules.graph.adjacency_list_graph.AdjacencyListGraph.getGraph"><code class="name flex">
+<span>def <span class="ident">getGraph</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Return Original Graph Data Structure ( This method is not public as it is overriden by child classes )</p>
+<p><strong>Overriden Method by Child</strong></p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Dictionary</code> &ndash; <code>Return</code> <code>initial</code> <code>Graph</code> <code>Data</code> <code>Structure</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def getGraph(self):
+    &#34;&#34;&#34;Return Original Graph Data Structure ( This method is not public as it is overriden by child classes )
+
+    **Overriden Method by Child**
+    
+    Returns:
+        Dictionary -- Return initial Graph Data Structure
+    &#34;&#34;&#34;
+    return self.list_graph</code></pre>
+</details>
+</dd>
+<dt id="python-graphs.modules.graph.adjacency_list_graph.AdjacencyListGraph.getGraphInstance"><code class="name flex">
+<span>def <span class="ident">getGraphInstance</span></span>(<span>self, deep_copy=False, directed=False)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Get Self Graph Instance as a Copy or New One</p>
+<p><strong>Method Overriden by Child Class</strong></p>
+<p>Keyword Arguments:
+deep_copy {bool}
+&ndash; Generate a new copy of itself or a new one (default: {False})</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def getGraphInstance(self, deep_copy = False, directed = False):
+    &#34;&#34;&#34;Get Self Graph Instance as a Copy or New One
+
+       **Method Overriden by Child Class**
+    
+    Keyword Arguments:
+        deep_copy {bool}    -- Generate a new copy of itself or a new one (default: {False})
+    
+    &#34;&#34;&#34;
+    if not deep_copy:
+        return AdjacencyListGraph(directed = directed)
+    else:
+        return copy.deepcopy(self)</code></pre>
+</details>
+</dd>
+<dt id="python-graphs.modules.graph.adjacency_list_graph.AdjacencyListGraph.getVerticeNeighborhood"><code class="name flex">
+<span>def <span class="ident">getVerticeNeighborhood</span></span>(<span>self, vertice)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Get All Vertices in a Vertice(V1) Neighborhood
+Example: v1 has [v2,v3,v4] as adjacency vertices, this methods returns those vertices</p>
+<h2 id="arguments">Arguments</h2>
+<p>vertice {String|Vertice}
+&ndash; Vertice Key Name. Example: Vertice 'a' or Vertice 2. Name doesn't matter as long it is a primitive.</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><strong><code>Exception</code></strong></dt>
+<dd>Vertice not in Graph!</dd>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def getVerticeNeighborhood(self, vertice):
+    &#34;&#34;&#34;Get All Vertices in a Vertice(V1) Neighborhood
+       Example: v1 has [v2,v3,v4] as adjacency vertices, this methods returns those vertices
+    
+    Arguments:
+        vertice {String|Vertice}    -- Vertice Key Name. Example: Vertice &#39;a&#39; or Vertice 2. Name doesn&#39;t matter as long it is a primitive.
+    
+    Raises:
+        Exception: Vertice not in Graph!
+    &#34;&#34;&#34;
+    if (self.verticeExists(vertice)):
+        return self.list_graph[vertice]
+    raise Exception(&#39;Vertice: {0} is not in Graph!&#39;.format(vertice))</code></pre>
+</details>
+</dd>
+<dt id="python-graphs.modules.graph.adjacency_list_graph.AdjacencyListGraph.getVertices"><code class="name flex">
+<span>def <span class="ident">getVertices</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Get Graph's Vertices List</p>
+<p><strong>Overriden Method by Child</strong></p>
+<h2 id="returns">Returns</h2>
+<p>[List]
+&ndash; Vertices List</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def getVertices(self):
+    &#34;&#34;&#34; Get Graph&#39;s Vertices List
+
+    **Overriden Method by Child**
+    
+    Returns:
+        [List]     -- Vertices List
+    &#34;&#34;&#34;
+    return list(self.list_graph.keys())</code></pre>
+</details>
+</dd>
+<dt id="python-graphs.modules.graph.adjacency_list_graph.AdjacencyListGraph.removeEdge"><code class="name flex">
+<span>def <span class="ident">removeEdge</span></span>(<span>self, edge)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Remove Edge from Graph</p>
+<p><strong>Overriden Method by Child</strong></p>
+<h2 id="arguments">Arguments</h2>
+<p>edge {List}
+&ndash; Edges as List. Example: [vertice1, vertice2]</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><strong><code>Exception</code></strong></dt>
+<dd>Edge doesn't Exists in Graph</dd>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def removeEdge(self, edge):
+    &#34;&#34;&#34;Remove Edge from Graph
+
+    **Overriden Method by Child**
+    
+    Arguments:
+        edge {List}         -- Edges as List. Example: [vertice1, vertice2]
+    
+    Raises:
+        Exception: Edge doesn&#39;t Exists in Graph
+    &#34;&#34;&#34;
+    if (self.edgeExists(edge) == True):
+        self.list_graph[edge[0]].remove(edge[1])
+        
+        if (self.directed == False):
+            self.list_graph[edge[1]].remove(edge[0])
+            
+        return
+    
+    raise Exception(&#39;Edge: {0} - {1} is not in Graph!&#39;.format(edge[0],edge[1]))</code></pre>
+</details>
+</dd>
+<dt id="python-graphs.modules.graph.adjacency_list_graph.AdjacencyListGraph.removeVertice"><code class="name flex">
+<span>def <span class="ident">removeVertice</span></span>(<span>self, vertice)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Remove Vertice from Graph</p>
+<h2 id="arguments">Arguments</h2>
+<p>vertice {String|Integer}
+&ndash; Vertice Key Name. Example: Vertice 'a' or Vertice 2. Name doesn't matter as long it is a primitive.</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><strong><code>Exception</code></strong></dt>
+<dd>Vertice not in Graph!</dd>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def removeVertice(self, vertice):
+    &#34;&#34;&#34;Remove Vertice from Graph
+    
+    Arguments:
+        vertice {String|Integer}    -- Vertice Key Name. Example: Vertice &#39;a&#39; or Vertice 2. Name doesn&#39;t matter as long it is a primitive.
+    
+    Raises:
+        Exception: Vertice not in Graph!
+    &#34;&#34;&#34;
+    if (self.verticeExists(vertice)):
+        for neighborhood in self.getVerticeNeighborhood(vertice):
+            self.list_graph[neighborhood].remove(vertice)
+            
+        del self.list_graph[vertice]
+        return
+    raise Exception(&#39;Vertice: {0} is not in Graph!&#39;.format(vertice))</code></pre>
+</details>
+</dd>
+<dt id="python-graphs.modules.graph.adjacency_list_graph.AdjacencyListGraph.show"><code class="name flex">
+<span>def <span class="ident">show</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Print Current Graph into Console.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def show(self):
+    &#34;&#34;&#34; Print Current Graph into Console.
+    &#34;&#34;&#34;
+    print(self.list_graph)</code></pre>
+</details>
+</dd>
+<dt id="python-graphs.modules.graph.adjacency_list_graph.AdjacencyListGraph.verticeExists"><code class="name flex">
+<span>def <span class="ident">verticeExists</span></span>(<span>self, vertice)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Check if Vertice Exists</p>
+<p><strong>Overriden Method by Child</strong></p>
+<h2 id="arguments">Arguments</h2>
+<p>vertice {String|Integer}
+&ndash; Vertice Key Name. Example: Vertice 'a' or Vertice 2. Name doesn't matter as long it is a primitive.</p>
+<h2 id="returns">Returns</h2>
+<p>[Boolean]
+&ndash; Condition to check if vertice exists</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def verticeExists(self, vertice):
+    &#34;&#34;&#34;Check if Vertice Exists
+
+    **Overriden Method by Child**
+    
+    Arguments:
+        vertice {String|Integer}  -- Vertice Key Name. Example: Vertice &#39;a&#39; or Vertice 2. Name doesn&#39;t matter as long it is a primitive.
+    
+    Returns:
+        [Boolean]         -- Condition to check if vertice exists
+    &#34;&#34;&#34;
+    return vertice in self.list_graph</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="python-graphs.modules.graph" href="index.html">python-graphs.modules.graph</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="python-graphs.modules.graph.adjacency_list_graph.AdjacencyListGraph" href="#python-graphs.modules.graph.adjacency_list_graph.AdjacencyListGraph">AdjacencyListGraph</a></code></h4>
+<ul class="">
+<li><code><a title="python-graphs.modules.graph.adjacency_list_graph.AdjacencyListGraph.createEdge" href="#python-graphs.modules.graph.adjacency_list_graph.AdjacencyListGraph.createEdge">createEdge</a></code></li>
+<li><code><a title="python-graphs.modules.graph.adjacency_list_graph.AdjacencyListGraph.createVertice" href="#python-graphs.modules.graph.adjacency_list_graph.AdjacencyListGraph.createVertice">createVertice</a></code></li>
+<li><code><a title="python-graphs.modules.graph.adjacency_list_graph.AdjacencyListGraph.edgeExists" href="#python-graphs.modules.graph.adjacency_list_graph.AdjacencyListGraph.edgeExists">edgeExists</a></code></li>
+<li><code><a title="python-graphs.modules.graph.adjacency_list_graph.AdjacencyListGraph.getEdges" href="#python-graphs.modules.graph.adjacency_list_graph.AdjacencyListGraph.getEdges">getEdges</a></code></li>
+<li><code><a title="python-graphs.modules.graph.adjacency_list_graph.AdjacencyListGraph.getGraph" href="#python-graphs.modules.graph.adjacency_list_graph.AdjacencyListGraph.getGraph">getGraph</a></code></li>
+<li><code><a title="python-graphs.modules.graph.adjacency_list_graph.AdjacencyListGraph.getGraphInstance" href="#python-graphs.modules.graph.adjacency_list_graph.AdjacencyListGraph.getGraphInstance">getGraphInstance</a></code></li>
+<li><code><a title="python-graphs.modules.graph.adjacency_list_graph.AdjacencyListGraph.getVerticeNeighborhood" href="#python-graphs.modules.graph.adjacency_list_graph.AdjacencyListGraph.getVerticeNeighborhood">getVerticeNeighborhood</a></code></li>
+<li><code><a title="python-graphs.modules.graph.adjacency_list_graph.AdjacencyListGraph.getVertices" href="#python-graphs.modules.graph.adjacency_list_graph.AdjacencyListGraph.getVertices">getVertices</a></code></li>
+<li><code><a title="python-graphs.modules.graph.adjacency_list_graph.AdjacencyListGraph.removeEdge" href="#python-graphs.modules.graph.adjacency_list_graph.AdjacencyListGraph.removeEdge">removeEdge</a></code></li>
+<li><code><a title="python-graphs.modules.graph.adjacency_list_graph.AdjacencyListGraph.removeVertice" href="#python-graphs.modules.graph.adjacency_list_graph.AdjacencyListGraph.removeVertice">removeVertice</a></code></li>
+<li><code><a title="python-graphs.modules.graph.adjacency_list_graph.AdjacencyListGraph.show" href="#python-graphs.modules.graph.adjacency_list_graph.AdjacencyListGraph.show">show</a></code></li>
+<li><code><a title="python-graphs.modules.graph.adjacency_list_graph.AdjacencyListGraph.verticeExists" href="#python-graphs.modules.graph.adjacency_list_graph.AdjacencyListGraph.verticeExists">verticeExists</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.6.2</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>
